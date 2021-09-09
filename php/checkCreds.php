@@ -12,16 +12,18 @@ if ($conn->connect_error) {
 $stmt = $conn->prepare("SELECT LGN.password AS 'password', INF.email AS 'email' from mathtutor.login AS LGN INNER JOIN mathtutor.info AS INF ON INF.email = ? AND LGN.password = ?");
 $stmt->bind_param("ss", $email, $password);
 
+//execute and receive query results
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 
-if($row != null)
+if($row != null) //No login info found
 {
-    echo "Found login info! Email: ".$row["email"].", Password: \'".$row["password"]."\'";
+    echo "success";
 }
-else
+else //Login info found
 {
-    header("Location: index.php?error=1");
+    echo "failure";
 }
+
 ?>
