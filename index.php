@@ -15,5 +15,12 @@
             <input type="submit">
         </form>
 
+        <?php 
+            if ($_GET["error"] != null)
+            {
+                // echo "<br>Error code ".htmlspecialchars($_GET["error"]);
+            }
+        ?>
+
     </body>
 </html> 
