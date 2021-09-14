@@ -27,10 +27,7 @@ if ($conn->connect_error) {
     die("Cannot connect to MySQL server to verify credentials. Please try again later.<br>");
 }
 
-// if (isset($_SESSION))
-// {
-//     session_unset();
-// } if we need to clear session cache on verification, this is the way to do it
+session_start();
 
 $_SESSION["UEMAIL"] = $email; //store email and password in session variables
 $_SESSION["UPASSWORD"] = $password;
