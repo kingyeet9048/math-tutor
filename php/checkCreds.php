@@ -27,8 +27,6 @@ if ($conn->connect_error) {
     die("Cannot connect to MySQL server to verify credentials. Please try again later.<br>");
 }
 
-session_start();
-
 $_SESSION["UEMAIL"] = $email; //store email and password in session variables
 $_SESSION["UPASSWORD"] = $password;
 
