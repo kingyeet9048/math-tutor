@@ -25,10 +25,17 @@ CREATE TABLE `courses` (
 	`courseName` varchar(500) UNIQUE
 );
 
+CREATE TABLE `questions` (
+	`ID` INT PRIMARY KEY AUTO_INCREMENT,
+    `courseID` INT,
+	`questionNumber` INT AUTO_INCREMENT, 
+    `questionType` varchar(255)
+);
 
 
 ALTER TABLE `login` ADD FOREIGN KEY (`starID`) REFERENCES `info` (`starID`);
 ALTER TABLE `courses` ADD FOREIGN KEY (`starID`) REFERENCES `info` (`starID`);
+ALTER TABLE `questions` ADD FOREIGN KEY (`courseID`) REFERENCES `courses` (`ID`);
 
 
 
