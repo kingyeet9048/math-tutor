@@ -3,6 +3,7 @@ USE mathTutor;
 
 DROP TABLE IF EXISTS login ;
 DROP TABLE IF EXISTS info ;
+DROP TABLE IF EXISTS courses ;
 
 CREATE TABLE `info` (
   `starID` varchar(8) PRIMARY KEY UNIQUE,
@@ -15,55 +16,19 @@ CREATE TABLE `info` (
 CREATE TABLE `login` (
 	`starID` varchar(8) PRIMARY KEY UNIQUE,
 	`userName` varchar(255) UNIQUE,
-	`password` varchar(500),
-	`datetime` timestamp
+	`password` varchar(500)
+);
+
+CREATE TABLE `courses` (
+	`ID` INT PRIMARY KEY AUTO_INCREMENT,
+    `starID` varchar(8) UNIQUE,
+	`courseName` varchar(500) UNIQUE
 );
 
 
 
 ALTER TABLE `login` ADD FOREIGN KEY (`starID`) REFERENCES `info` (`starID`);
-
-DELIMITER $$
-CREATE PROCEDURE `signUp`(
-IN star_ID VARCHAR(8), 
-IN lName VARCHAR (255), 
-IN fName VARCHAR (255), 
-IN role VARCHAR (14), 
-IN email VARCHAR (255),
-IN uName VARCHAR (255), 
-IN pWord VARCHAR(255)
-)
-BEGIN
-
-SET time_zone = '-05:00';
-    INSERT INTO mathTutor.info (starID, lastName, firstName, role, email )
-    VALUES (star_ID, lName, fName, role, email);
-
-    INSERT INTO mathTutor.login (starID, userName, password, datetime)
-    VALUES (star_ID, uName, pWord, NOW());
-END$$
-DELIMITER ;
-
-DELIMITER $$
-CREATE PROCEDURE `insertUser`(
-IN star_ID VARCHAR(8), 
-IN lName VARCHAR (255), 
-IN fName VARCHAR (255), 
-IN role VARCHAR (14), 
-IN email VARCHAR (255),
-IN uName VARCHAR (255), 
-IN pWord VARCHAR(255)
-)
-BEGIN
-
-SET time_zone = '-05:00';
-    INSERT INTO mathTutor.all_users (starID, lastName, firstName, role, email )
-    VALUES (star_ID, lName, fName, role, email);
-
-    INSERT INTO mathTutor.login (starID, userName, password, datetime)
-    VALUES (star_ID, uName, pWord, NOW());
-END$$
-DELIMITER ;
+ALTER TABLE `courses` ADD FOREIGN KEY (`starID`) REFERENCES `info` (`starID`);
 
 
 
