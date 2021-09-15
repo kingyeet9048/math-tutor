@@ -1,28 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+  <head>
     <meta charset="UTF-8">
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="Login.CSS">
     <style>
     </style>
     <script src=""></script>
-    <body>
-        <p>Login</p>
-        <form class="form" id="loginForm" method="post" action="php/checkCreds.php">
-            <p>E-mail: <input type="text" name="email" value=""></p>
-            <p>Password: <input type="password" name="password" value=""></p>
-            <input type="submit">
-        </form>
-
-<<<<<<< Updated upstream
-        <?php 
-            if (isset($_GET["error"]))
-            {
-                echo "<br>Error code ".htmlspecialchars($_GET["error"]);
-            }
-        ?>
-=======
+  </head>
+  <body>
+    <h2> Grade 1 Online learning </h2>
+    <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
+    <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Sign Up</button>
+    <?php 
+        if (isset($_GET["error"]))
+        {
+            echo "<br>Error code ".htmlspecialchars($_GET["error"]);
+        }
+    ?>
     <div id="id01" class="modal">
       
       <form class="modal-content animate" action="php/checkCreds.php" method="post">
@@ -60,7 +56,4 @@
     </div>
   </body>
 </html>
->>>>>>> Stashed changes
 
-    </body>
-</html> 
