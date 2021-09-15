@@ -13,7 +13,12 @@
     <h2> Grade 1 Online learning </h2>
     <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
     <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Sign Up</button>
-
+    <?php 
+        if (isset($_GET["error"]))
+        {
+            echo "<br>Error code ".htmlspecialchars($_GET["error"]);
+        }
+    ?>
     <div id="id01" class="modal">
       
       <form class="modal-content animate" action="php/checkCreds.php" method="post">
@@ -46,6 +51,8 @@
             echo "<br>Error code ".htmlspecialchars($_GET["error"]);
         }
       ?>
+      <!-- This is here since it's for our development purposes. It can be commented, just wanted to include the link. ~ Ashton -->
+      <br><a href="dbAssist.php">Goto database assistance page</a>
     </div>
   </body>
 </html>
