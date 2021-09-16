@@ -11,13 +11,7 @@ session_start();
 
 if(isset($_SESSION["DBCONNECTION"]))
 {
-<<<<<<< Updated upstream
-    //star ID is saved in the session on login or signup.
-    //if session exired on and not there return error. 
-    $starID = 1; //$_POST["starID"]; Once frontend is done this can be uncommented
-=======
     $starID = $_SESSION["USTARID"]; //$_POST["starID"]; Once frontend is done this can be uncommented
->>>>>>> Stashed changes
     $courseName = $_POST["courseName"];
     $questionNumber = $_POST["questionNumber"];
     $questionType = $_POST["questionType"];
@@ -31,13 +25,8 @@ if(isset($_SESSION["DBCONNECTION"]))
     }
 
     // prepare and bind
-<<<<<<< Updated upstream
-    $stmt = $conn->prepare("INSERT INTO mathtutor.questions(courseID, studentStarID, questionNumber, questionType, isOverride) VALUES ((SELECT ID FROM mathtutor.courses WHERE courseName = ?), ?, ?, ?, ?)");
-    $stmt->bind_param("ssiib", $courseName, $studentStarID, $questionNumber, $questionType, $isOverride);
-=======
     $stmt = $conn->prepare("INSERT INTO mathtutor.questions(courseID, starID, questionNumber, questionType, isOverride) VALUES ((SELECT ID FROM mathtutor.courses WHERE courseName = ?), ?, ?, ?, ?)");
     $stmt->bind_param("ssiii", $courseName, $studentStarID, $questionNumber, $questionType, intval($isOverride));
->>>>>>> Stashed changes
 
     //execute and receive query results
     $stmt->execute();
