@@ -48,7 +48,4 @@ else //Login info found
     echo "failure";
 }
 
-$stmt->close();
-$conn->close();
-
 ?>
