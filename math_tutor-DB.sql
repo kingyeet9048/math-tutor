@@ -1,27 +1,48 @@
 CREATE SCHEMA IF NOT EXISTS mathTutor;
 USE mathTutor;
 
+DROP TABLE IF EXISTS questions ;
+DROP TABLE IF EXISTS courses ;
 DROP TABLE IF EXISTS login ;
 DROP TABLE IF EXISTS info ;
+DROP PROCEDURE IF EXISTS signUp ;
+DROP PROCEDURE IF EXISTS forgotPassword ;
+
+
 
 CREATE TABLE `info` (
-  `starID` varchar(8) PRIMARY KEY UNIQUE,
-  `lastName` varchar(255),
-  `firstName` varchar(255),
-  `role` varchar(14),
-  `email` varchar(255)
+    `starID` VARCHAR(8) PRIMARY KEY UNIQUE,
+    `lastName` VARCHAR(255),
+    `firstName` VARCHAR(255),
+    `role` VARCHAR(7)
 );
 
 CREATE TABLE `login` (
-	`starID` varchar(8) PRIMARY KEY UNIQUE,
-	`userName` varchar(255) UNIQUE,
-	`password` varchar(500),
-	`datetime` timestamp
+    `starID` VARCHAR(8) PRIMARY KEY UNIQUE,
+    `userName` VARCHAR(255) UNIQUE,
+    `password` VARCHAR(500)
+);
+
+CREATE TABLE `courses` (
+    `ID` INT PRIMARY KEY AUTO_INCREMENT,
+    `starID` VARCHAR(8) UNIQUE,
+    `courseName` VARCHAR(255) UNIQUE
+);
+
+CREATE TABLE `questions` (
+    `ID` INT PRIMARY KEY AUTO_INCREMENT,
+    `courseID` INT,
+    `starID` VARCHAR(8),
+    `questionNumber` INT,
+    `questionType` VARCHAR(255),
+    `isOverride` BOOLEAN
 );
 
 
-
 ALTER TABLE `login` ADD FOREIGN KEY (`starID`) REFERENCES `info` (`starID`);
+ALTER TABLE `courses` ADD FOREIGN KEY (`starID`) REFERENCES `info` (`starID`);
+ALTER TABLE `questions` ADD FOREIGN KEY (`starID`) REFERENCES `info` (`starID`);
+ALTER TABLE `questions` ADD FOREIGN KEY (`courseID`) REFERENCES `courses` (`ID`);
 
 DELIMITER $$
 CREATE PROCEDURE `signUp`(
@@ -29,44 +50,30 @@ IN star_ID VARCHAR(8),
 IN lName VARCHAR (255), 
 IN fName VARCHAR (255), 
 IN role VARCHAR (14), 
-IN email VARCHAR (255),
 IN uName VARCHAR (255), 
 IN pWord VARCHAR(255)
 )
 BEGIN
 
-SET time_zone = '-05:00';
-    INSERT INTO mathTutor.info (starID, lastName, firstName, role, email )
-    VALUES (star_ID, lName, fName, role, email);
+    INSERT INTO mathTutor.info (starID, lastName, firstName, role )
+    VALUES (star_ID, lName, fName, role);
 
-    INSERT INTO mathTutor.login (starID, userName, password, datetime)
-    VALUES (star_ID, uName, pWord, NOW());
+    INSERT INTO mathTutor.login (starID, userName, password)
+    VALUES (star_ID, uName, pWord);
+    
 END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE PROCEDURE `insertUser`(
+CREATE PROCEDURE `forgotPassword`(
 IN star_ID VARCHAR(8), 
-IN lName VARCHAR (255), 
-IN fName VARCHAR (255), 
-IN role VARCHAR (14), 
-IN email VARCHAR (255),
-IN uName VARCHAR (255), 
 IN pWord VARCHAR(255)
 )
 BEGIN
 
-SET time_zone = '-05:00';
-    INSERT INTO mathTutor.all_users (starID, lastName, firstName, role, email )
-    VALUES (star_ID, lName, fName, role, email);
-
-    INSERT INTO mathTutor.login (starID, userName, password, datetime)
-    VALUES (star_ID, uName, pWord, NOW());
+    UPDATE mathTutor.login
+    SET password = pWord 
+    WHERE starID = star_ID;
+    
 END$$
 DELIMITER ;
-
-
-
-
-
-
