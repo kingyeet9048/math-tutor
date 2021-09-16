@@ -8,7 +8,7 @@
 // include("setSessionTimeout.php");
 // setSessionTimeout(60*60*24); Seems to cause the cookies to wipe
 session_start();
-
+// Email is removed from the database. Use username instead. 
 $email = $_POST["email"];
 $password = $_POST["password"];
 

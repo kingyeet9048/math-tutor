@@ -32,16 +32,16 @@ CREATE TABLE `courses` (
 CREATE TABLE `questions` (
     `ID` INT PRIMARY KEY AUTO_INCREMENT,
     `courseID` INT,
-    `starID` VARCHAR(8),
+    `studentStarID` VARCHAR(8),
     `questionNumber` INT,
-    `questionType` VARCHAR(255),
+    `questionType` INT,
     `isOverride` BOOLEAN
 );
 
 
 ALTER TABLE `login` ADD FOREIGN KEY (`starID`) REFERENCES `info` (`starID`);
 ALTER TABLE `courses` ADD FOREIGN KEY (`starID`) REFERENCES `info` (`starID`);
-ALTER TABLE `questions` ADD FOREIGN KEY (`starID`) REFERENCES `info` (`starID`);
+ALTER TABLE `questions` ADD FOREIGN KEY (`studentStarID`) REFERENCES `info` (`starID`);
 ALTER TABLE `questions` ADD FOREIGN KEY (`courseID`) REFERENCES `courses` (`ID`);
 
 DELIMITER $$

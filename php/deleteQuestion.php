@@ -8,8 +8,11 @@ session_start();
 
 if(isset($_SESSION["DBCONNECTION"]))
 {
+    //star ID is saved in the session on login or signup.
+    //if session exired on and not there return error. 
     $starID = 1; //$_POST["starID"]; Once frontend is done this can be uncommented
-    $questionNumber = $_POST["questionNumber"];
+    //We are using ID from the questions table not questionNumber
+    $questionID = $_POST["questionNumber"];
     $courseName = $_POST["courseName"];
 
     $conn = new mysqli("localhost:3306", $_SESSION["DBUN"], $_SESSION["DBPW"]);
@@ -19,8 +22,8 @@ if(isset($_SESSION["DBCONNECTION"]))
     }
 
     // prepare and bind
-    $stmt = $conn->prepare("DELETE FROM mathtutor.questions AS QST WHERE starID = ? AND questionNumber = ? AND courseID = (SELECT ID FROM mathtutor.courses WHERE courseName = ?)");
-    $stmt->bind_param("sii", $starID, $questionNumber, $courseName);
+    $stmt = $conn->prepare("DELETE FROM mathtutor.questions AS QST WHERE ID = ? AND courseID = (SELECT ID FROM mathtutor.courses WHERE courseName = ?)");
+    $stmt->bind_param("ii", $questionID, $courseName);
 
     //execute and receive query results
     $stmt->execute();

@@ -7,6 +7,8 @@ session_start();
 
 if(isset($_SESSION["DBCONNECTION"]))
 {
+    //star ID is saved in the session on login or signup.
+    //if session exired on and not there return error. 
     $starID = 1; //$_POST["starID"]; Once frontend is done this can be uncommented
     $courseName = $_POST["courseName"];
 
