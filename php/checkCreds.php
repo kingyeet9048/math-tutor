@@ -32,7 +32,7 @@ $_SESSION["UPASSWORD"] = $password;
 
 // prepare and bind
 $stmt = $conn->prepare("SELECT LGN.password AS 'password', INF.email AS 'email' from mathtutor.login AS LGN INNER JOIN mathtutor.info AS INF ON INF.email = ? AND LGN.password = ?");
-$stmt->bind_param("ss", $email, $password);
+$stmt->bind_param("ss", $username, $password);
 
 //execute and receive query results
 $stmt->execute();
