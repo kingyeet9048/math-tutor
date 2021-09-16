@@ -12,7 +12,7 @@ if(isset($_SESSION["DBCONNECTION"]))
     //if session exired on and not there return error. 
     $starID = 1; //$_POST["starID"]; Once frontend is done this can be uncommented
     //We are using ID from the questions table not questionNumber
-    $questionID = $_POST["questionNumber"];
+    $questionID = $_POST["questionID"];
     $courseName = $_POST["courseName"];
 
     $conn = new mysqli("localhost:3306", $_SESSION["DBUN"], $_SESSION["DBPW"]);
