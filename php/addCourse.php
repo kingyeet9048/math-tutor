@@ -7,13 +7,8 @@ session_start();
 
 if(isset($_SESSION["DBCONNECTION"]))
 {
-<<<<<<< Updated upstream
-    //star ID is saved in the session on login or signup.
-    //if session exired on and not there return error. 
-    $starID = 1; //$_POST["starID"]; Once frontend is done this can be uncommented
-=======
+
     $starID = $_SESSION["USTARID"]; //Once frontend is done this can be uncommented
->>>>>>> Stashed changes
     $courseName = $_POST["courseName"];
 
     $conn = new mysqli("localhost:3306", $_SESSION["DBUN"], $_SESSION["DBPW"]);
