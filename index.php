@@ -1,59 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Page Title</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="Login.CSS">
-    <style>
-    </style>
-    <script src=""></script>
-  </head>
-  <body>
-    <h2> Grade 1 Online learning </h2>
-    <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login</button>
-    <button onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Sign Up</button>
-    <?php 
-        if (isset($_GET["error"]))
-        {
-            echo "<br>Error code ".htmlspecialchars($_GET["error"]);
-        }
-    ?>
-    <div id="id01" class="modal">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="MathTutor.css">
+</head>
+<body>
+
+<h2> Let's Learn Mathematics </h2>
+
+      <div class="col">
+        <div class="hide-md-lg">
+        </div>
+
+        <input type="text" name="username" placeholder="Username" required>
+        <input type="password" name="password" placeholder="Password" required>
+        <input type="submit" value="Login">
+      </div>
       
-      <form class="modal-content animate" action="php/checkCreds.php" method="post">
-        <div class="imgcontainer">
-          <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-          <img src="ELE.png" alt="Avatar" class="avatar">
-        </div>
-
-        <div class="container">
-          <label for="uname"><b>Username</b></label>
-          <input type="text" placeholder="Enter Email" name="email" required>
-
-          <label for="psw"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" name="password" required>
-            
-          <button type="submit">Login</button>
-          <label>
-            <input type="checkbox" checked="checked" name="remember"> Remember me
-          </label>
-        </div>
-
-        <div class="container" style="background-color:#f1f1f1">
-          <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
-          <span class="psw">Forgot <a href="#">password?</a></span>
-        </div>
-      </form>
-      <?php 
-        if (isset($_GET["error"]))
-        {
-            echo "<br>Error code ".htmlspecialchars($_GET["error"]);
-        }
-      ?>
-      <!-- This is here since it's for our development purposes. It can be commented, just wanted to include the link. ~ Ashton -->
-      <br><a href="dbAssist.php">Goto database assistance page</a>
     </div>
-  </body>
-</html>
+  </form>
+</div>
 
+<div class="bottom-container">
+  <div class="row">
+    <div class="col">
+      <a href="#" style="color:white" class="btn">Sign up</a>
+    </div>
+    <div class="col">
+      <a href="#" style="color:white" class="btn">Forgot password?</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
