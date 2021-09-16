@@ -8,8 +8,13 @@
 // include("setSessionTimeout.php");
 // setSessionTimeout(60*60*24); Seems to cause the cookies to wipe
 session_start();
+<<<<<<< Updated upstream
 // Email is removed from the database. Use username instead. 
 $email = $_POST["email"];
+=======
+
+$username = $_POST["username"];
+>>>>>>> Stashed changes
 $password = $_POST["password"];
 
 if(isset($_SESSION) && isset($_SESSION["DBLC"]) && isset($_SESSION["DBUN"]) && isset($_SESSION["DBPW"]))
@@ -27,11 +32,11 @@ if ($conn->connect_error) {
     die("Cannot connect to MySQL server to verify credentials. Please try again later.<br>");
 }
 
-$_SESSION["UEMAIL"] = $email; //store email and password in session variables
+$_SESSION["UEMAIL"] = $username; //store email and password in session variables
 $_SESSION["UPASSWORD"] = $password;
 
 // prepare and bind
-$stmt = $conn->prepare("SELECT LGN.password AS 'password', INF.email AS 'email' from mathtutor.login AS LGN INNER JOIN mathtutor.info AS INF ON INF.email = ? AND LGN.password = ?");
+$stmt = $conn->prepare("SELECT LGN.password AS 'password', LGN.password AS 'password', LGN.starID AS 'starID' FROM mathtutor.login AS LGN WHERE LGN.username = ? AND LGN.password = ?");
 $stmt->bind_param("ss", $username, $password);
 
 //execute and receive query results
@@ -41,6 +46,7 @@ $row = $result->fetch_assoc();
 
 if($row != null) //login info found
 {
+    $_SESSION["USTARID"] = $row["starID"];
     echo "success";
 }
 else //Login info found
