@@ -1,17 +1,12 @@
 <?php 
-//Uses starID (from the session), 
-// courseName (from the client), 
-// and questionID (from the client) 
+//Uses questionID (from the client) 
 // to delete a question from the question table
 
 session_start();
 
 if(isset($_SESSION["DBCONNECTION"]))
 {
-    $starID = 1; //$_POST["starID"]; Once frontend is done this can be uncommented
-    $questionNumber = $_POST["questionNumber"];
-    $courseName = $_POST["courseName"];
-
+    $questionID = $_POST["questionID"];
     $conn = new mysqli("localhost:3306", $_SESSION["DBUN"], $_SESSION["DBPW"]);
 
     if ($conn->connect_error) {
@@ -19,8 +14,8 @@ if(isset($_SESSION["DBCONNECTION"]))
     }
 
     // prepare and bind
-    $stmt = $conn->prepare("DELETE FROM mathtutor.questions AS QST WHERE starID = ? AND questionNumber = ? AND courseID = (SELECT ID FROM mathtutor.courses WHERE courseName = ?)");
-    $stmt->bind_param("sii", $starID, $questionNumber, $courseName);
+    $stmt = $conn->prepare("DELETE FROM mathtutor.questions AS QST WHERE ID = ?");
+    $stmt->bind_param("i", $questionID);
 
     //execute and receive query results
     $stmt->execute();
