@@ -1,26 +1,67 @@
 function customSkills () {
     isTeaching().then((result) => {
-        // $('#close-icon1').on('click',function() {
-        //     $(this).closest('.list-group-item').hide();
-        // });
-        // $('#close-icon2').on('click',function() {
-        //     $(this).closest('.list-group-item').hide();
-        // });
+
     });
 }
 
 function classSkills () {
+    // https://stackoverflow.com/questions/4777077/removing-elements-by-class-name
+    // deleting everything inside the modal first..
     if (document.getElementsByClassName('holder')) {
-        var holder = document.getElementsByClassName('list-group-item holder');
-        console.log(holder.length);
-        for (var i = 0; i < holder.length; i++) {
-            // console.log(document.getElementById('closeButton'+i));
-            document.getElementById('closeButton'+i).click();
+        const elements = document.getElementsByClassName('holder');
+        while(elements.length > 0){
+            // console.log('deleting...');
+            elements[0].parentNode.removeChild(elements[0]);
         }
+
     }
     var skills = ['Recognizing numbers/Counting', 'Recognizing larger/smaller (more/less) – Using number line', 'Using number line to add, count and add up to 10, add more to make 10', 'Count and add up to 20, add 3 values up to 20', 'Vertical addition, find missing number to make 10/20', 'Horizontal addition, adding 3 values', 'Adding two-digit number (no carry), adding 2-digit number with carry'];
     isTeaching().then((result) => {
         function addAQuestion() {
+            //algorithm to find the lowest missing number
+            // first find all values and put them into an array
+            //https://www.geeksforgeeks.org/find-the-first-missing-number/
+            const elements = document.getElementsByClassName('holder');
+            let questionsArray = [];
+            if (elements.length > 0) {
+                for (let index = 0; index < elements.length; index++) {
+                    let questionNumberInput = elements[index].childNodes[0].childNodes[0].value;
+                    questionsArray.push(parseInt(questionNumberInput));
+                }
+            }
+            // algorithm cannot work unsorted. 
+            questionsArray.sort(function(a,b){return a-b});
+            // Javascript program to find the smallest
+            // elements missing in a sorted array.
+            // uses the binary search technique
+            // but modified to check with indeces
+            // complexity O(logn)
+            function findFirstMissing(array, start, end)
+            {
+                // if the starting index is greater
+                // then the ending index, increase end
+                // and return the new index
+                if (start > end)
+                    return end + 1;
+        
+                // if the start index is not actually
+                // the starting number....
+                if (start != array[start])
+                    return start;
+        
+                // get middle
+                let mid = parseInt((start + end) / 2, 10);
+        
+                // Left half has all elements from 0 to mid
+                if (array[mid] == mid) {
+                    return findFirstMissing(array, mid+1, end);
+                }
+        
+                return findFirstMissing(array, start, mid);
+            }
+
+            const end = questionsArray.length == 0 ? 0 : Math.max(...questionsArray);
+            const missingNumber = findFirstMissing(questionsArray, 0, end);
             var parentContainer = document.getElementById('addQuestion');
             var newDiv = document.createElement('div');
             newDiv.className = "list-group-item holder";
@@ -31,7 +72,7 @@ function classSkills () {
             var input = document.createElement('input');
             input.type = "text";
             input.className = "form-control mb-2";
-            input.value = parseInt(localStorage.getItem('questionLength'));
+            input.value = missingNumber;
             input.disabled = true;
 
             var selectInput = document.createElement('select');
@@ -60,14 +101,12 @@ function classSkills () {
 
 
             var closeButton = document.createElement('span');
-            closeButton.className = "badge clickable";
-            closeButton.id = "closeButton"+(parseInt(localStorage.getItem('questionLength')) + 1);
+            closeButton.className = "badge clickable closeButton";
             closeButton.style = "color: red;";
             var icon = document.createElement('i');
             icon.className = "fa fa-times";
             closeButton.appendChild(icon);
             function closeAndChange() {
-                localStorage.setItem("questionLength", parseInt(localStorage.getItem('questionLength')) - 1);
                 $(this).closest('.list-group-item').remove();
             }
             closeButton.onclick = closeAndChange;
@@ -78,12 +117,12 @@ function classSkills () {
             newDiv2.appendChild(selectInput);
             newDiv2.appendChild(addQuestionButton);
             newDiv2.appendChild(closeButton);
-            localStorage.setItem("questionLength", parseInt(localStorage.getItem('questionLength')) + 1);
         }
         document.getElementById('plusButton').onclick = addAQuestion;
         if (result.questions) {
-            localStorage.setItem('questionLength', (result.questions).length);
             for(var i = 0; i < result.questions.length; i++) {
+                if (result.questions[i].isOverride)
+                    continue;
                 var parentContainer = document.getElementById('addQuestion');
                 var newDiv = document.createElement('div');
                 newDiv.className = "list-group-item holder";
@@ -111,14 +150,12 @@ function classSkills () {
                 selectInput.disabled = true;
 
                 var closeButton = document.createElement('span');
-                closeButton.className = "badge clickable";
+                closeButton.className = "badge clickable closeButton";
                 closeButton.style = "color: red;";
-                closeButton.id = "closeButton"+i;
                 var icon = document.createElement('i');
                 icon.className = "fa fa-times";
                 closeButton.appendChild(icon);
                 function closeAndChange() {
-                    localStorage.setItem("questionLength", parseInt(localStorage.getItem('questionLength')) - 1);
                     $(this).closest('.list-group-item').remove();
                 }
                 closeButton.onclick = closeAndChange;

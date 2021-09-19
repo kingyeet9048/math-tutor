@@ -14,7 +14,13 @@
     $question2->courseID = "1232fgrews";
     $question2->questionNumber = 2;
     $question2->questionType = 7;
-    $array = array((array)$question1, (array)$question2);
+    $question3 = new stdClass();
+    $question3->ID = "425gfegh";
+    $question3->courseID = "something";
+    $question3->questionNumber = 3;
+    $question3->questionType = 4;
+    $question3->isOverride = true;
+    $array = array((array)$question1, (array)$question2, (array)$question3);
     $myObject->questions = $array;
     echo json_encode($myObject);
 

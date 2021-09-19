@@ -90,11 +90,12 @@
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content d-flex justify-content-center">
                                             <div class="list-group">
-                                                <div class="list-group-item list-group-item-action active" aria-current="true">
-                                                    <div class="d-flex w-100 justify-content-between">
-                                                        <h5 class="mb-1">Custom Questions</h5>
-                                                    </div>
-                                                </div>
+                                                    <a id="customPlusButton" class="list-group-item list-group-item-action active" aria-current="true">
+                                                        <div class="d-flex w-100 justify-content-between">
+                                                            <h5 class="mb-1">Custom Questions?</h5>
+                                                            <span id="close-icon2" class="badge clickable"><i class="fa fa-plus"></i></span>
+                                                        </div>
+                                                    </a>
                                                 <!-- <div class="list-group-item">
                                                     <div class="d-flex w-100 justify-content-between">
                                                         <h5 class="mb-1">Add a question?</h5>
