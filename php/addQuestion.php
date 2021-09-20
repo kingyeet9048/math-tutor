@@ -11,11 +11,11 @@ session_start();
 
 if(isset($_SESSION["DBCONNECTION"]))
 {
-    $starID = 1; //$_POST["starID"]; Once frontend is done this can be uncommented
+    $starID = $_SESSION["USTARID"]; //$_POST["starID"]; Once frontend is done this can be uncommented
     $courseName = $_POST["courseName"];
     $questionNumber = $_POST["questionNumber"];
-    $questionType = $_POST["questionNumber"];
-    $isOverride = empty($_POST["isOverride"]) ? null : $_POST["isOverride"] == 'true'; //optional
+    $questionType = $_POST["questionType"];
+    $isOverride = empty($_POST["isOverride"]) ? 0 : $_POST["isOverride"] == 'true'; //optional
     $studentStarID = empty($_POST["studentStarID"]) ? null : $_POST["studentStarID"]; //optional
 
     include("connectToDB.php");
@@ -23,7 +23,7 @@ if(isset($_SESSION["DBCONNECTION"]))
     
     // prepare and bind
     $stmt = $conn->prepare("INSERT INTO mathtutor.questions(courseID, starID, questionNumber, questionType, isOverride) VALUES ((SELECT ID FROM mathtutor.courses WHERE courseName = ?), ?, ?, ?, ?)");
-    $stmt->bind_param("siiis", $courseName, $starID, $questionNumber, $questionType, $isOverride);
+    $stmt->bind_param("ssiii", $courseName, $studentStarID, $questionNumber, $questionType, intval($isOverride));
 
     //execute and receive query results
     $stmt->execute();

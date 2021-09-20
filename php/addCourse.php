@@ -7,7 +7,8 @@ session_start();
 
 if(isset($_SESSION["DBCONNECTION"]))
 {
-    $starID = 1; //$_POST["starID"]; Once frontend is done this can be uncommented
+
+    $starID = $_SESSION["USTARID"]; //Once frontend is done this can be uncommented
     $courseName = $_POST["courseName"];
 
     include("connectToDB.php");
