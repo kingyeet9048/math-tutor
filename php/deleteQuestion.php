@@ -8,6 +8,7 @@ session_start();
 
 if(isset($_SESSION["DBCONNECTION"]))
 {
+<<<<<<< Updated upstream
     $starID = 1; //$_POST["starID"]; Once frontend is done this can be uncommented
     $questionNumber = $_POST["questionNumber"];
     $courseName = $_POST["courseName"];
@@ -17,6 +18,11 @@ if(isset($_SESSION["DBCONNECTION"]))
     if ($conn->connect_error) {
         die("Cannot connect to MySQL server to verify credentials. Please try again later.<br>");
     }
+=======
+    $questionID = $_POST["questionID"];
+    include("connectToDB.php");
+    $conn = connectToDB();
+>>>>>>> Stashed changes
 
     // prepare and bind
     $stmt = $conn->prepare("DELETE FROM mathtutor.questions AS QST WHERE starID = ? AND questionNumber = ? AND courseID = (SELECT ID FROM mathtutor.courses WHERE courseName = ?)");

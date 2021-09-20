@@ -18,12 +18,9 @@ if(isset($_SESSION["DBCONNECTION"]))
     $isOverride = empty($_POST["isOverride"]) ? null : $_POST["isOverride"] == 'true'; //optional
     $studentStarID = empty($_POST["studentStarID"]) ? null : $_POST["studentStarID"]; //optional
 
-    $conn = new mysqli("localhost:3306", $_SESSION["DBUN"], $_SESSION["DBPW"]);
-
-    if ($conn->connect_error) {
-        die("Cannot connect to MySQL server to verify credentials. Please try again later.<br>");
-    }
-
+    include("connectToDB.php");
+    $conn = connectToDB();
+    
     // prepare and bind
     $stmt = $conn->prepare("INSERT INTO mathtutor.questions(courseID, starID, questionNumber, questionType, isOverride) VALUES ((SELECT ID FROM mathtutor.courses WHERE courseName = ?), ?, ?, ?, ?)");
     $stmt->bind_param("siiis", $courseName, $starID, $questionNumber, $questionType, $isOverride);
