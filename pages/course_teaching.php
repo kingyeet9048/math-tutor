@@ -89,7 +89,7 @@
                                 <div class="modal fade bd-custom-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg">
                                         <div class="modal-content d-flex justify-content-center">
-                                            <div class="list-group">
+                                            <div id = "addCustomQuestions" class="list-group">
                                                     <a id="customPlusButton" class="list-group-item list-group-item-action active" aria-current="true">
                                                         <div class="d-flex w-100 justify-content-between">
                                                             <h5 class="mb-1">Custom Questions?</h5>
