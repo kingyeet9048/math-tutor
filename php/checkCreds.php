@@ -1,7 +1,6 @@
 <?php 
-//Verifies the email and password inputted with the database.
-//Takes input named 'email' and 'password'
 //Verifies the username and password inputted with the database credentials.
+//Takes input named 'username' and 'password'
 // 
 // 
 
@@ -10,21 +9,17 @@
 // setSessionTimeout(60*60*24); Seems to cause the cookies to wipe
 session_start();
 
-$email = $_POST["email"];
+$username = $_POST["username"];
 $password = $_POST["password"];
 
 include("connectToDB.php");
 $conn = connectToDB();
 
-<<<<<<< Updated upstream
-$_SESSION["UEMAIL"] = $email; //store email and password in session variables
-=======
-$_SESSION["UEMAIL"] = $username; //store username and password in session variables
->>>>>>> Stashed changes
+$_SESSION["USERNAME"] = $username; //store username and password in session variables
 $_SESSION["UPASSWORD"] = $password;
 
 // prepare and bind
-$stmt = $conn->prepare("SELECT LGN.password AS 'password', INF.email AS 'email' from mathtutor.login AS LGN INNER JOIN mathtutor.info AS INF ON INF.email = ? AND LGN.password = ?");
+$stmt = $conn->prepare("SELECT LGN.password AS 'password', LGN.username AS 'username' FROM mathtutor.login AS LGN WHERE LGN.userName = ? AND LGN.password = ?;");
 $stmt->bind_param("ss", $username, $password);
 
 //execute and receive query results
@@ -34,16 +29,11 @@ $row = $result->fetch_assoc();
 
 if($row != null) //login info found
 {
-<<<<<<< Updated upstream
-    echo "success";
-=======
-    $_SESSION["USTARID"] = $row["starID"];
-    echo "success|";
->>>>>>> Stashed changes
+    echo "success|true";
 }
 else //Login info found
 {
-    echo "failure|";
+    echo "failure|false";
 }
 
 $stmt->close();

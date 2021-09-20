@@ -29,4 +29,7 @@ else
     }
 }
 
+$stmt->close();
+$conn->close();
+
 ?>
