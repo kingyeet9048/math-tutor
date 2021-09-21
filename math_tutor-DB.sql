@@ -38,11 +38,21 @@ CREATE TABLE `questions` (
     `isOverride` BOOLEAN
 );
 
+CREATE TABLE `records` (
+    `ID` INT PRIMARY KEY AUTO_INCREMENT,
+    `questionID` INT,
+    `studentStarID` VARCHAR(8),
+    `courseID` INT
+);
+
 
 ALTER TABLE `login` ADD FOREIGN KEY (`starID`) REFERENCES `info` (`starID`);
 ALTER TABLE `courses` ADD FOREIGN KEY (`teacherStarID`) REFERENCES `info` (`starID`);
 ALTER TABLE `questions` ADD FOREIGN KEY (`studentStarID`) REFERENCES `info` (`starID`);
 ALTER TABLE `questions` ADD FOREIGN KEY (`courseID`) REFERENCES `courses` (`ID`);
+ALTER TABLE `records` ADD FOREIGN KEY (`questionID`) REFERENCES `questions` (`ID`);
+ALTER TABLE `records` ADD FOREIGN KEY (`studentStarID`) REFERENCES `info` (`starID`);
+ALTER TABLE `records` ADD FOREIGN KEY (`courseID`) REFERENCES `courses` (`ID`);
 
 DELIMITER $$
 CREATE PROCEDURE `signUp`(
