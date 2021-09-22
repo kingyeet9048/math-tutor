@@ -18,7 +18,7 @@ if(isset($_SESSION["DBCONNECTION"]))
 
     $stmt->close();
     $conn->close();
-    //
+
     echo "success|";
 }
 else
