@@ -12,11 +12,8 @@ if(isset($_SESSION["DBCONNECTION"]))
     $questionNumber = $_POST["questionNumber"];
     $courseName = $_POST["courseName"];
 
-    $conn = new mysqli("localhost:3306", $_SESSION["DBUN"], $_SESSION["DBPW"]);
-
-    if ($conn->connect_error) {
-        die("Cannot connect to MySQL server to verify credentials. Please try again later.<br>");
-    }
+    include("connectToDB.php");
+    $conn = connectToDB();
 
     // prepare and bind
     $stmt = $conn->prepare("");
