@@ -25,7 +25,7 @@ function sendRequest (filePath, postData, resultFunction) {
 // </script>
 async function isTeacher() {
    return new Promise((resolve, reject) => {
-        sendRequest("../php/isTeacher.php", JSON.stringify({}), (readyState, statusCode, theRequest) => {
+        sendRequest("../php/isStarIDTeacher.php", JSON.stringify({}), (readyState, statusCode, theRequest) => {
             if (readyState == 4 && statusCode == 200) {
                 const result = JSON.parse(theRequest.responseText);
                 resolve(result);
@@ -52,7 +52,7 @@ async function isTeaching() {
 
 async function modifyCourseTeaching(postBody) {
     return new Promise((resolve, reject) => {
-        sendRequest("../php/modifyCourseTeaching.php", JSON.stringify(postBody), (readyState, statusCode, theRequest) => {
+        sendRequest("../php/modifyCourseName.php", JSON.stringify(postBody), (readyState, statusCode, theRequest) => {
             if (readyState == 4 && statusCode == 200) {
                 if (theRequest.responseText) {
                     const result = JSON.parse(theRequest.responseText);
