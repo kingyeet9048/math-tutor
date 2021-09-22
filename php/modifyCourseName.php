@@ -11,7 +11,7 @@ if(isset($_SESSION["DBCONNECTION"]))
     include("connectToDB.php");
     $conn = connectToDB();
 
-    $stmt = $conn->prepare("UPDATE mathtutor.courses SET courseName = '?' WHERE starID = '?'");
+    $stmt = $conn->prepare("UPDATE mathtutor.courses SET courseName = ? WHERE teacherStarID = ?");
     $stmt->bind_param("ss", $courseName, $starID);
 
     $stmt->execute();
