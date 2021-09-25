@@ -2,10 +2,11 @@
 
 include("connectToDB.php");
 $conn = connectToDB();
-$starID = $_POST["starID"];
+$starID = $_SESSION["USTARID"];
+// $starID = $_POST["starID"];
 
 // prepare and bind
-$stmt = $conn->prepare("SELECT INF.role FROM mathtutor.info WHERE INF.starID = ?;");
+$stmt = $conn->prepare("SELECT INF.role FROM mathtutor.info AS INF WHERE INF.starID = ?;");
 $stmt->bind_param("s", $starID);
 
 //execute and receive query results
