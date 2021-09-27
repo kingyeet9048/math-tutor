@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
-    <head>
-    <link rel="stylesheet" href="CSS/signup.css">
-</head>
+<?php include('components/head.php') ?>
+<link rel="stylesheet" href="../styling/signup.css">
 <body>
-<form action="action_page.php">
+<form action="../php/signUp.php">
   <div class="container">
     <h1>Register</h1>
     <hr>
@@ -37,7 +36,7 @@
     </div>
 
   <div class="additionalInfo">
-    <p>Already have an account? <a href="#">Sign in</a>.</p>
+    <p>Already have an account? <a href="../index.php">Sign in</a>.</p>
   </div>
 </form>
 </body>

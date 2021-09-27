@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <?php include('pages/components/head.php'); ?>
+  <link rel="stylesheet" href="styling/MathTutor.css">
   <body>
     <h1 class="text-center"> Let's Learn Mathematics </h1>
     <div class="row mb-3">
@@ -12,17 +13,17 @@
               <form>
                 <input type="text" name="username" placeholder="Username" required>
                 <input type="password" name="password" placeholder="Password" required>
-                <input type="submit" value="Login">
+                <input type="submit" class="btn btn-success" value="Login">
               </form>
             </div>
         </div>
         <div class="bottom-container">
           <div class="">
             <div class="">
-              <a href="#" style="color:white" class="btn">Sign up</a>
+              <a href="pages/signup.php" style="color:white" class="btn">Sign up</a>
             </div>
             <div class="">
-              <a href="#" style="color:white" class="btn">Forgot password?</a>
+              <a href="pages/forgot_password.php" style="color:white" class="btn">Forgot password?</a>
             </div>
           </div>
         </div>
