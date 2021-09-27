@@ -10,7 +10,7 @@
           <img src="img/lock.png" width="128px" height="128px" class="rounded mx-auto d-block" alt="Lock">
           <div class="card-body">
               <h5 class="card-title">Welcome! Please sign in</h5>
-              <form>
+              <form action="php/checkCreds.php" method="POST">
                 <input type="text" name="username" placeholder="Username" required>
                 <input type="password" name="password" placeholder="Password" required>
                 <input type="submit" class="btn btn-success" value="Login">

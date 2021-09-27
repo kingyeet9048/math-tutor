@@ -19,7 +19,7 @@ $_SESSION["USERNAME"] = $username; //store username and password in session vari
 $_SESSION["UPASSWORD"] = $password;
 
 // prepare and bind
-$stmt = $conn->prepare("SELECT LGN.password AS 'password', LGN.password AS 'password', LGN.starID AS 'starID' FROM mathtutor.login AS LGN WHERE LGN.username = ? AND LGN.password = ?");
+$stmt = $conn->prepare("call mathtutor.signin(?, ?);");
 $stmt->bind_param("ss", $username, $password);
 
 //execute and receive query results
