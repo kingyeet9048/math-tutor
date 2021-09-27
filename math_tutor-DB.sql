@@ -147,14 +147,13 @@ CREATE PROCEDURE `getStudentProgress`(
 IN ssID VARCHAR(8)
 )
 BEGIN
-
-	SET @countQ = (SELECT COUNT(*) FROM mathTutor.questions WHERE studentStarID = ssID);
+	SET @countQ = (SELECT COUNT(*) FROM mathTutor.questions WHERE courseID = (SELECT courseID FROM mathTutor.studenInfo WHERE studentStarID = ssID) AND isOverride = false);
 	SET @cName = (SELECT courseName FROM mathTutor.courses WHERE courseID = (SELECT courseID FROM mathTutor.studenInfo WHERE studentStarID = ssID));
     SET @countR = (SELECT COUNT(*) FROM mathTutor.records WHERE studentStarID = ssID);
     
-    SET @percentComplete = (@questionID/@recordID) * 100;
+    SET @percentComplete = (@countR/@countQ) * 100;
     
-    IF (@cName LIKE '' OR @recordID LIKE 0) THEN
+    IF (@cName LIKE '' OR @countQ LIKE 0) THEN
 		SELECT '';
 	ELSE
 		SELECT @percentComplete;
@@ -170,11 +169,11 @@ IN tsID VARCHAR(8)
 BEGIN
 
 	SET @cID = (SELECT courseID FROM mathTutor.courses WHERE teacherStarID = tsID);
-	SET @enrollment = (SELECT SI.firstName, SI.lastName, COUNT(R.courseID) FROM mathTutor.studentInfo AS SI, mathTutor.records AS R
+	SET @enrollment = (SELECT SI.firstName, SI.lastName, COUNT(R.studentStarID) FROM mathTutor.studentInfo AS SI, mathTutor.records AS R
 						WHERE SI.studentStarID = R.studentStarID AND R.courseID = @cID);
-	SET @correctQ = (SELECT COUNT(*) FROM mathTutor.records WHERE studentStarID = (SELECT studentStarID FROM mathTutor.records WHERE courseID = @cID)) ;
+-- 	SET @correctQ = (SELECT COUNT(*) FROM mathTutor.records WHERE studentStarID = (SELECT studentStarID FROM mathTutor.records WHERE courseID = @cID)) ;
     
-    SELECT correctQ;
+    SELECT @enrollment;
 
 END$$
 DELIMITER ;
