@@ -114,6 +114,38 @@ async function getStudentTeaching(postBody) {
     });
 }
 
+async function login(postBody) {
+    return new Promise((resolve, reject) => {
+        sendRequest("php/checkCreds.php", JSON.stringify(postBody), (readyState, statusCode, theRequest) => {
+            if (readyState == 4 && statusCode == 200) {
+                if (theRequest.responseText) {
+                    // const result = JSON.parse(theRequest.responseText);
+                    resolve(theRequest.responseText);
+                }
+                else {
+                    resolve(null);
+                }
+            }
+        });
+    });
+}
+
+async function signup(postBody) {
+    return new Promise((resolve, reject) => {
+        sendRequest("../php/signUp.php", JSON.stringify(postBody), (readyState, statusCode, theRequest) => {
+            if (readyState == 4 && statusCode == 200) {
+                if (theRequest.responseText) {
+                    // const result = JSON.parse(theRequest.responseText);
+                    resolve(theRequest.responseText);
+                }
+                else {
+                    resolve(null);
+                }
+            }
+        });
+    });
+}
+
 function getCookie(cname) {
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);

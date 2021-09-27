@@ -7,11 +7,14 @@
 // setSessionTimeout(60*60*24); Seems to cause the cookies to wipe
 session_start();
 
-$username = $_POST["username"];
-$password = $_POST["password"];
-$firstName = $_POST["firstName"];
-$lastName = $_POST["lastName"];
-$role = $_POST["role"];
+$rawdata = file_get_contents("php://input");
+$decodedData = json_decode($rawdata);
+//getting the raw sha256 output
+$username = $decodedData->username;
+$password = $decodedData->password;
+$firstName = $decodedData->firstName;
+$lastName = $decodedData->lastName;
+$role = $decodedData->role;
 
 include("connectToDB.php");
 $conn = connectToDB();
