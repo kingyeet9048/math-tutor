@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="input-group pb-2">
                                     <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                    <input id="password" name="new_password" placeholder="new password" class="form-control"  type="password">
+                                    <input id="new_password" name="new_password" placeholder="new password" class="form-control"  type="password">
                                 </div>
                                 <div class="input-group pb-2">
                                     <span class="input-group-addon"><i class="fa fa-lock"></i></span>

@@ -32,7 +32,7 @@
         </div>
     <div class="additionalInfo">
     <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-    <button type="submit" class="registerbtn">Register</button>
+    <button type="submit" class="btn btn-success">Register</button>
     </div>
 
   <div class="additionalInfo">

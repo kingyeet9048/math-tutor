@@ -176,6 +176,24 @@ BEGIN
 END$$
 DELIMITER ;
 
+DELIMITER $$
+CREATE PROCEDURE `signin`(
+IN uName VARCHAR (255), 
+IN pWord VARCHAR(255)
+)
+BEGIN
+
+	set @studentCheck = (SELECT studentStarID FROM studentInfo WHERE userName = uName AND password = pWord);
+	set @teacherCheck = (SELECT teacherStarID FROM teacherInfo WHERE userName = uName AND password = pWord);
+    IF @studentCheck IS NULL THEN
+		SELECT @teacherCheck AS starID;
+	ELSE
+	   SELECT @studentCheck AS starID;
+	END IF;
+
+END$$
+DELIMITER ;
+
 INSERT INTO `mathtutor`.`teacherinfo` (`teacherStarID`, `lastName`, `firstName`, `userName`, `password`) VALUES ('1', 'Bada', 'Sully', 'sbada', '1');
 INSERT INTO `mathtutor`.`teacherinfo` (`teacherStarID`, `lastName`, `firstName`, `userName`, `password`) VALUES ('2', 'and', 'some', 'andsome', '1');
 INSERT INTO `mathtutor`.`courses` (`courseID`, `teacherStarID`, `courseName`) VALUES ('1', '1', 'sully class');
