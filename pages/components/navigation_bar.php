@@ -25,14 +25,19 @@
     </nav>
 </div>
 <script>
-    isTeacher().then((result) => {
-        if(!result) {
-            document.getElementById("course").innerHTML = "Course Learning";
-            document.getElementById("course").href = "course_student.php";
+    processRequest("../php/isStarIDTeacher.php", {}).then((result) => {
+        if (!result.error) {
+            if(!result) {
+                document.getElementById("course").innerHTML = "Course Learning";
+                document.getElementById("course").href = "course_student.php";
+            }
+            else {
+                document.getElementById("course").innerHTML = "Course Teaching";
+                document.getElementById("course").href = "course_teaching.php";
+            }
         }
         else {
-            document.getElementById("course").innerHTML = "Course Teaching";
-            document.getElementById("course").href = "course_teaching.php";
+            alert('Error - ' + result.error);
         }
     });
 </script>

@@ -16,10 +16,13 @@
         alert('Password does not match confirm password');
       }
       else {
-        signup({'firstName': firstName, 'lastName': lastName, 'username': username, 'password': password, 'role': roleType}).then((result) => {
+        processRequest("../php/signUp.php", {'firstName': firstName, 'lastName': lastName, 'username': username, 'password': password, 'role': roleType}).then((result) => {
           if (result) {
             if(result.success) {
                 window.location.href = "home.php";
+            }
+            else if (result.error) {
+              alert('Error - ' + result.error);
             }
             else {
               alert('Something went wrong during sign up. Please try again.');

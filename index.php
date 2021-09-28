@@ -5,17 +5,26 @@
   <body>
     <script>
       function loginManager() {
-        var username = document.getElementById('username').value;
-        var password = document.getElementById('password').value
-        login({'username': username, 'password': password}).then((result) => {
+        var username = document.getElementById('username');
+        var password = document.getElementById('password');
+        username.disabled = true;
+        password.disabled = true;
+        document.getElementById('loginButton').disabled = true;
+        processRequest("php/checkCreds.php", {'username': username.value, 'password': password.value}).then((result) => {
           if (result) {
             if(result.success == true) {
               window.location.href = "pages/home.php";
+            }
+            else if (result.error) {
+              alert('Error - Please Try again: ' + result.error);
             }
             else {
               alert('Incorrect. Please try again.');
             }
           }
+          username.disabled = false;
+          password.disabled = false;
+          document.getElementById('loginButton').disabled = false;
         });
       }
     </script>
@@ -29,7 +38,7 @@
               <form>
                 <input id="username" type="text" name="username" placeholder="Username" required>
                 <input id="password" type="password" name="password" placeholder="Password" required>
-                <input type="button" class="btn btn-success" onclick="loginManager();" value="Login">
+                <input id="loginButton" type="button" class="btn btn-success" onclick="loginManager();" value="Login">
               </form>
             </div>
         </div>
