@@ -3,15 +3,19 @@
 // to delete a question from the question table
 
 session_start();
+$returnState = new stdClass();
 
 if(isset($_SESSION["DBCONNECTION"]))
 {
-    $questionID = $_POST["questionID"];
-    include("connectToDB.php");
+    $rawdata = file_get_contents("php://input");
+    $decodedData = json_decode($rawdata);
+    //getting the raw sha256 output
+    $questionID = $decodedData->questionID;
+    include("helper/connectToDB.php");
     $conn = connectToDB();
 
     // prepare and bind
-    $stmt = $conn->prepare("DELETE FROM mathtutor.questions AS QST WHERE ID = ?");
+    $stmt = $conn->prepare("DELETE FROM mathtutor.questions AS QST WHERE questionID = ?");
     $stmt->bind_param("i", $questionID);
 
     //execute and receive query results
@@ -19,13 +23,9 @@ if(isset($_SESSION["DBCONNECTION"]))
 
     $stmt->close();
     $conn->close();
+}
 
-    //
-    echo "success|";
-}
-else
-{
-    echo "failure|";
-}
+$returnState -> success = isset($_SESSION["DBUN"]) && isset($_SESSION["DBPW"]) && isset($_SESSION["DBLC"]);
+echo json_encode($returnState);
 
 ?>
