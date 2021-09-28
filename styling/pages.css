@@ -1,0 +1,16 @@
+#footer {
+    bottom: 0;
+    position: absolute;
+}
+#navbar {
+    margin-bottom: 2em;
+}
+.close-icon {
+    cursor: pointer;
+}
+#addQuestion:hover {
+    background-color: rgb(28, 144, 47);
+}
+.badge:hover {
+    background-color: darkgoldenrod;
+}

@@ -19,7 +19,6 @@ if(isset($_SESSION["DBCONNECTION"]))
 
     $stmt->close();
     $conn->close();
-
     $returnState -> success = true;
 }
 else
