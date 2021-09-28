@@ -1,36 +1,32 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="MathTutor.css">
-  </head>
-<body>
-
-<h2> Let's Learn Mathematics </h2>
-
-      <div class="col">
-        <div class="hide-md-lg">
+  <?php include('pages/components/head.php'); ?>
+  <body>
+    <h1 class="text-center"> Let's Learn Mathematics </h1>
+    <div class="row mb-3">
+      <div class="col d-flex justify-content-center">
+        <div class="card" style="width: 30rem;">
+          <img src="img/lock.png" width="128px" height="128px" class="rounded mx-auto d-block" alt="Lock">
+          <div class="card-body">
+              <h5 class="card-title">Welcome! Please sign in</h5>
+              <form>
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <input type="submit" value="Login">
+              </form>
+            </div>
         </div>
-
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
-        <input type="submit" value="Login">
+        <div class="bottom-container">
+          <div class="">
+            <div class="">
+              <a href="#" style="color:white" class="btn">Sign up</a>
+            </div>
+            <div class="">
+              <a href="#" style="color:white" class="btn">Forgot password?</a>
+            </div>
+          </div>
+        </div>
       </div>
-      
     </div>
-  </form>
-</div>
-
-<div class="bottom-container">
-  <div class="row">
-    <div class="col">
-      <a href="#" style="color:white" class="btn">Sign up</a>
-    </div>
-    <div class="col">
-      <a href="#" style="color:white" class="btn">Forgot password?</a>
-    </div>
-  </div>
-</div>
-
-</body>
+  </body>
 </html>
