@@ -18,8 +18,8 @@
       else {
         signup({'firstName': firstName, 'lastName': lastName, 'username': username, 'password': password, 'role': roleType}).then((result) => {
           if (result) {
-            if(result.includes('success')) {
-                window.location.href = "pages/home.php";
+            if(result.success) {
+                window.location.href = "home.php";
             }
             else {
               alert('Something went wrong during sign up. Please try again.');

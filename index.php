@@ -9,7 +9,7 @@
         var password = document.getElementById('password').value
         login({'username': username, 'password': password}).then((result) => {
           if (result) {
-            if(result.includes('success')) {
+            if(result.success == true) {
               window.location.href = "pages/home.php";
             }
             else {

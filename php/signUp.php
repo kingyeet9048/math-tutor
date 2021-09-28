@@ -1,20 +1,3 @@
-<!-- <html>
-    testing form
-    <form method="post">
-    UN: <input type="text" name="username" />
-    <br>
-    PW: <input type="text" name="password" />
-    <br>
-    FN: <input type="text" name="firstName" />
-    <br>
-    LN: <input type="text" name="lastName" />
-    <br>
-    ROLE: <input type="text" name="role" />
-    <br>
-    <input type="submit">
-    </form>
-</html> -->
-
 <?php 
 //Takes the credentials given and inserts it into the database.
 // 
@@ -23,8 +6,8 @@
 // include("setSessionTimeout.php");
 // setSessionTimeout(60*60*24); Seems to cause the cookies to wipe
 
-if(isset($_POST) && isset($_POST["username"]))
-{
+// if(isset($_POST) && isset($_POST["username"]))
+// {
     session_start();
 
     // $username = $_POST["username"];
@@ -70,7 +53,7 @@ if(isset($_POST) && isset($_POST["username"]))
     $stmt->execute();
     $result = $stmt->get_result();
     $row = $conn->affected_rows;
-    echo $row;
+    // echo $row;
     $returnState = new stdClass();
     $returnState -> success = $row != null;
     
@@ -84,5 +67,5 @@ if(isset($_POST) && isset($_POST["username"]))
     
     $stmt->close();
     $conn->close();
-}
+// }
 ?>

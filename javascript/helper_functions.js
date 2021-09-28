@@ -27,6 +27,7 @@ async function isTeacher() {
    return new Promise((resolve, reject) => {
         sendRequest("../php/isStarIDTeacher.php", JSON.stringify({}), (readyState, statusCode, theRequest) => {
             if (readyState == 4 && statusCode == 200) {
+                alert(theRequest.responseText);
                 const result = JSON.parse(theRequest.responseText);
                 resolve(result);
             }
@@ -119,8 +120,8 @@ async function login(postBody) {
         sendRequest("php/checkCreds.php", JSON.stringify(postBody), (readyState, statusCode, theRequest) => {
             if (readyState == 4 && statusCode == 200) {
                 if (theRequest.responseText) {
-                    // const result = JSON.parse(theRequest.responseText);
-                    resolve(theRequest.responseText);
+                    const result = JSON.parse(theRequest.responseText);
+                    resolve(result);
                 }
                 else {
                     resolve(null);
@@ -135,8 +136,8 @@ async function signup(postBody) {
         sendRequest("../php/signUp.php", JSON.stringify(postBody), (readyState, statusCode, theRequest) => {
             if (readyState == 4 && statusCode == 200) {
                 if (theRequest.responseText) {
-                    // const result = JSON.parse(theRequest.responseText);
-                    resolve(theRequest.responseText);
+                    const result = JSON.parse(theRequest.responseText);
+                    resolve(result);
                 }
                 else {
                     resolve(null);

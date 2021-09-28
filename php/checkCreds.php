@@ -13,8 +13,8 @@ $decodedData = json_decode($rawdata);
 //getting the raw sha256 output
 $username = $decodedData->username;
 $password = $decodedData->password;
-$username = $_POST["username"];
-$password = $_POST["password"];
+// $username = $_POST["username"];
+// $password = $_POST["password"];
 
 include("helper/connectToDB.php");
 $conn = connectToDB();
@@ -33,7 +33,7 @@ $row = $result->fetch_assoc();
 $returnState = new stdClass();
 $returnState->success = false;
 
-if($row['starID'] != null) //login info found
+if(isset($row['starID']) && $row['starID'] != null) //login info found
 {
     $_SESSION["USTARID"] = $row["starID"];
     $returnState->success = true;
