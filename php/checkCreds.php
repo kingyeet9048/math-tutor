@@ -1,11 +1,3 @@
-<html>
-    <form method="post">
-        <input type="text" name="username">
-        <input type="text" name="password">
-        <input type="submit">
-    </form>
-</html>
-
 <?php 
 //Verifies the username and password inputted with the database credentials.
 //Takes input named 'username' and 'password'
