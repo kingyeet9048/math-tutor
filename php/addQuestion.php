@@ -18,7 +18,7 @@ if(isset($_SESSION["DBCONNECTION"]))
     $isOverride = empty($_POST["isOverride"]) ? 0 : $_POST["isOverride"] == 'true'; //optional
     $studentStarID = empty($_POST["studentStarID"]) ? null : $_POST["studentStarID"]; //optional
 
-    include("connectToDB.php");
+    include("helper/connectToDB.php");
     $conn = connectToDB();
     
     // prepare and bind

@@ -1,19 +1,19 @@
 <?php 
-//Uses questionID (from the client) 
-// to delete a question from the question table
+//Uses courseName (from the client) 
+// to delete a course's references from courses, questions, records and students tables
 
 session_start();
 $returnState = new stdClass();
 
 if(isset($_SESSION["DBCONNECTION"]))
 {
-    $questionID = $_POST["questionID"];
+    $courseName = $_POST["courseName"];
     include("helper/connectToDB.php");
     $conn = connectToDB();
 
     // prepare and bind
-    $stmt = $conn->prepare("DELETE FROM mathtutor.questions AS QST WHERE questionID = ?");
-    $stmt->bind_param("i", $questionID);
+    $stmt = $conn->prepare("CALL mathtutor.deleteCourse(?);");
+    $stmt->bind_param("s", $courseName);
 
     //execute and receive query results
     $stmt->execute();

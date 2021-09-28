@@ -11,7 +11,7 @@ if(isset($_SESSION["DBCONNECTION"]))
     $starID = $_SESSION["USTARID"]; //Once frontend is done this can be uncommented
     $courseName = $_POST["courseName"];
 
-    include("connectToDB.php");
+    include("helper/connectToDB.php");
     $conn = connectToDB();
 
     // prepare and bind
