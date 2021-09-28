@@ -7,7 +7,10 @@ if(isset($_SESSION["DBCONNECTION"]))
 {
 
     $starID = $_SESSION["USTARID"];
-    $courseName = $_POST["courseName"];
+    $rawdata = file_get_contents("php://input");
+    $decodedData = json_decode($rawdata);
+    //getting the raw sha256 output
+    $username = $decodedData->courseName;
 
     include("connectToDB.php");
     $conn = connectToDB();

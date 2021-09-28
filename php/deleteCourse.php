@@ -7,7 +7,10 @@ $returnState = new stdClass();
 
 if(isset($_SESSION["DBCONNECTION"]))
 {
-    $courseName = $_POST["courseName"];
+    $rawdata = file_get_contents("php://input");
+    $decodedData = json_decode($rawdata);
+    //getting the raw sha256 output
+    $courseName = $decodedData->courseName;
     include("helper/connectToDB.php");
     $conn = connectToDB();
 

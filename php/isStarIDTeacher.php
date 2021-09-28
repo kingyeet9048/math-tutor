@@ -2,22 +2,20 @@
 
 include("helper/connectToDB.php");
 $conn = connectToDB();
-<<<<<<< Updated upstream
-$starID = $_POST["starID"];
-
-// prepare and bind
-$stmt = $conn->prepare("SELECT INF.role FROM mathtutor.info WHERE INF.starID = ?;");
-=======
 $starID = $_SESSION["USTARID"];
 
-if(isset($_POST) && isset($_POST["starID"]))
+$rawdata = file_get_contents("php://input");
+$decodedData = json_decode($rawdata);
+//getting the raw sha256 output
+$starID = $decodedData->starID;
+
+if(!isset($starID))
 {
     $starID = $_POST["starID"];
 }
 
 // prepare and bind
 $stmt = $conn->prepare("SELECT TCH.teacherStarID FROM mathtutor.teacherinfo AS INF WHERE INF.teacherStarID = ?;");
->>>>>>> Stashed changes
 $stmt->bind_param("s", $starID);
 
 //execute and receive query results

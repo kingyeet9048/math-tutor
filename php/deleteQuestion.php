@@ -7,7 +7,10 @@ $returnState = new stdClass();
 
 if(isset($_SESSION["DBCONNECTION"]))
 {
-    $questionID = $_POST["questionID"];
+    $rawdata = file_get_contents("php://input");
+    $decodedData = json_decode($rawdata);
+    //getting the raw sha256 output
+    $questionID = $decodedData->questionID;
     include("helper/connectToDB.php");
     $conn = connectToDB();
 
