@@ -42,7 +42,7 @@ CREATE TABLE `courses` (
 CREATE TABLE `questions` (
     `questionID` INT PRIMARY KEY AUTO_INCREMENT,
     `courseID` INT,
-    `studentStarID` VARCHAR(8) NULL,
+    `studentStarID` VARCHAR(8),
     `questionNumber` INT,
     `questionType` INT,
     `isOverride` BOOLEAN
@@ -134,10 +134,10 @@ IN cName VARCHAR(255)
 BEGIN
 
 	SET @courseID = (SELECT courseID FROM mathTutor.courses WHERE courseName = cName);
-    DELETE FROM mathTutor.records WHERE courseID = courseID;
-    DELETE FROM mathTutor.questions WHERE courseID = courseID;
-    DELETE FROM mathTutor.courses WHERE courseID = courseID;
-    DELETE FROM mathTutor.studentInfo WHERE courseID = courseID;
+	DELETE FROM mathTutor.records WHERE courseID = @courseID;
+	DELETE FROM mathTutor.studentInfo WHERE courseID = @courseID;
+    DELETE FROM mathTutor.questions WHERE courseID = @courseID;
+    DELETE FROM mathTutor.courses WHERE courseID = @courseID;
     
 END$$
 DELIMITER ;
@@ -169,15 +169,17 @@ IN tsID VARCHAR(8)
 BEGIN
 
 	SET @cID = (SELECT courseID FROM mathTutor.courses WHERE teacherStarID = tsID);
-	(SELECT SI.firstName, SI.lastName, R.completedQuestions FROM mathTutor.studentInfo AS SI
-		LEFT JOIN (SELECT studentStarID, courseID, COUNT(studentStarID) AS completedQuestions FROM mathTutor.records group by studentStarID, courseID) AS R on R.studentStarID = SI.studentStarID
-		WHERE R.courseID = @cID);
+	SELECT SI.firstName, SI.lastName, COUNT(*)
+	FROM mathTutor.studentInfo AS SI
+	LEFT JOIN mathTutor.records AS R ON R.studentStarID = SI.studentStarID
+	WHERE R.courseID = @cID
+	GROUP BY SI.studentStarID;
 
 END$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE PROCEDURE `signin`(
+CREATE PROCEDURE `signIn`(
 IN uName VARCHAR (255), 
 IN pWord VARCHAR(255)
 )
@@ -194,22 +196,26 @@ BEGIN
 END$$
 DELIMITER ;
 
-INSERT INTO `mathtutor`.`teacherinfo` (`teacherStarID`, `lastName`, `firstName`, `userName`, `password`) VALUES ('1', 'Bada', 'Sully', 'sbada', '1');
-INSERT INTO `mathtutor`.`teacherinfo` (`teacherStarID`, `lastName`, `firstName`, `userName`, `password`) VALUES ('2', 'and', 'some', 'andsome', '1');
-INSERT INTO `mathtutor`.`courses` (`courseID`, `teacherStarID`, `courseName`) VALUES ('1', '1', 'sully class');
-INSERT INTO `mathtutor`.`courses` (`courseID`, `teacherStarID`, `courseName`) VALUES ('2', '2', 'and some class');
-INSERT INTO `mathtutor`.`studentinfo` (`studentStarID`, `lastName`, `firstName`, `courseID`, `userName`, `password`) VALUES ('3', 'a', 'student', '1', 'guest', '1');
-INSERT INTO `mathtutor`.`studentinfo` (`studentStarID`, `lastName`, `firstName`, `courseID`, `userName`, `password`) VALUES ('4', 'second', 'student', '2', 'gest', '2');
-INSERT INTO `mathtutor`.`studentinfo` (`studentStarID`, `lastName`, `firstName`, `courseID`, `userName`, `password`) VALUES ('5', 'adf', 'asdf', '1', 'gestg', 'asg');
-INSERT INTO `mathtutor`.`studentinfo` (`studentStarID`, `lastName`, `firstName`, `courseID`, `userName`, `password`) VALUES ('6', 'afds', 'afgas', '2', 'gag', 'gsa');
-INSERT INTO `mathtutor`.`studentinfo` (`studentStarID`, `lastName`, `firstName`, `courseID`, `userName`, `password`) VALUES ('7', 'ljkko', 'lknsg', '1', 'wl', 'l');
-INSERT INTO `mathtutor`.`studentinfo` (`studentStarID`, `lastName`, `firstName`, `courseID`, `userName`, `password`) VALUES ('8', 'lnbkl', 'oinag', '2', 'lfjasd', 'lsafd');
-INSERT INTO `mathtutor`.`questions` (`questionID`, `courseID`, `questionNumber`, `questionType`, `isOverride`) VALUES ('1', '1', '1', '2', '0');
-INSERT INTO `mathtutor`.`questions` (`questionID`, `courseID`, `questionNumber`, `questionType`, `isOverride`) VALUES ('2', '1', '1', '3', '0');
-INSERT INTO `mathtutor`.`questions` (`questionID`, `courseID`, `questionNumber`, `questionType`, `isOverride`) VALUES ('3', '1', '1', '2', '0');
-INSERT INTO `mathtutor`.`questions` (`questionID`, `courseID`, `questionNumber`, `questionType`, `isOverride`) VALUES ('4', '1', '1', '3', '0');
-INSERT INTO `mathtutor`.`questions` (`questionID`, `courseID`, `questionNumber`, `questionType`, `isOverride`) VALUES ('5', '1', '1', '2', '0');
-INSERT INTO `mathtutor`.`questions` (`questionID`, `courseID`, `questionNumber`, `questionType`, `isOverride`) VALUES ('6', '1', '1', '3', '0');
-INSERT INTO `mathtutor`.`questions` (`questionID`, `courseID`, `questionNumber`, `questionType`, `isOverride`) VALUES ('7', '1', '1', '2', '0');
-INSERT INTO `mathtutor`.`questions` (`questionID`, `courseID`, `questionNumber`, `questionType`, `isOverride`) VALUES ('8', '1', '1', '3', '0');
-INSERT INTO `mathtutor`.`records` (`recordsID`, `questionID`, `studentStarID`, `courseID`) VALUES ('1', '1', '3', '1');
+INSERT INTO `mathtutor`.`teacherinfo` (`teacherStarID`, `lastName`, `firstName`, `userName`, `password`) VALUES ('12345678', 'Steve', 'Roger', 'sroger', 'avengers');
+INSERT INTO `mathtutor`.`teacherinfo` (`teacherStarID`, `lastName`, `firstName`, `userName`, `password`) VALUES ('87654321', 'Thor', 'Odinson', 'todinson', 'avengers');
+INSERT INTO `mathtutor`.`courses` (`teacherStarID`, `courseName`) VALUES ('12345678', 'Super Hero 101');
+INSERT INTO `mathtutor`.`courses` (`teacherStarID`, `courseName`) VALUES ('87654321', 'Super Hero 102');
+INSERT INTO `mathtutor`.`studentinfo` (`studentStarID`, `lastName`, `firstName`, `courseID`, `userName`, `password`) VALUES ('69696969', 'Panther', 'Black', '1', 'bpanther', 'hero');
+INSERT INTO `mathtutor`.`studentinfo` (`studentStarID`, `lastName`, `firstName`, `courseID`, `userName`, `password`) VALUES ('42042042', 'Widow', 'Black', '2', 'bwindow', 'hero');
+INSERT INTO `mathtutor`.`studentinfo` (`studentStarID`, `lastName`, `firstName`, `courseID`, `userName`, `password`) VALUES ('96969696', 'Man', 'Iron', '2', 'iman', 'hero');
+INSERT INTO `mathtutor`.`studentinfo` (`studentStarID`, `lastName`, `firstName`, `courseID`, `userName`, `password`) VALUES ('12348765', 'Banner', 'Bruce', '1', 'bbanner', 'hero');
+INSERT INTO `mathtutor`.`studentinfo` (`studentStarID`, `lastName`, `firstName`, `courseID`, `userName`, `password`) VALUES ('11223344', 'Eye', 'Hawk', '1', 'heye', 'l');
+INSERT INTO `mathtutor`.`studentinfo` (`studentStarID`, `lastName`, `firstName`, `courseID`, `userName`, `password`) VALUES ('55667788', 'Maximoff', 'Wanda', '2', 'wmaximoff', 'hero');
+INSERT INTO `mathtutor`.`questions` (`courseID`, `questionNumber`, `questionType`, `isOverride`) VALUES ('1','1', '2', '0');
+INSERT INTO `mathtutor`.`questions` (`courseID`, `questionNumber`, `questionType`, `isOverride`) VALUES ( '2','1', '3', '0');
+INSERT INTO `mathtutor`.`questions` (`courseID`, `questionNumber`, `questionType`, `isOverride`) VALUES ( '2','1', '2', '0');
+INSERT INTO `mathtutor`.`questions` (`courseID`, `questionNumber`, `questionType`, `isOverride`) VALUES ( '2','1', '3', '0');
+INSERT INTO `mathtutor`.`questions` ( `courseID`, `questionNumber`, `questionType`, `isOverride`) VALUES ( '2','1', '2', '0');
+INSERT INTO `mathtutor`.`questions` ( `courseID`,`questionNumber`, `questionType`, `isOverride`) VALUES ('1','1', '3', '0');
+INSERT INTO `mathtutor`.`questions` (`courseID`, `questionNumber`, `questionType`, `isOverride`) VALUES ('1','1', '2', '0');
+INSERT INTO `mathtutor`.`questions` (`courseID`, `questionNumber`, `questionType`, `isOverride`) VALUES ('1','1', '3', '0');
+INSERT INTO `mathtutor`.`records` (`questionID`, `studentStarID`, `courseID`) VALUES ('1', '69696969', '1');
+INSERT INTO `mathtutor`.`records` (`questionID`, `studentStarID`, `courseID`) VALUES ('2', '42042042', '2');
+INSERT INTO `mathtutor`.`records` (`questionID`, `studentStarID`, `courseID`) VALUES ('6', '12348765', '1');
+INSERT INTO `mathtutor`.`records` (`questionID`, `studentStarID`, `courseID`) VALUES ('4', '11223344', '1');
+INSERT INTO `mathtutor`.`records` (`questionID`, `studentStarID`, `courseID`) VALUES ('6', '11223344', '1');
