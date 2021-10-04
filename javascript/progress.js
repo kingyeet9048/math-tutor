@@ -1,10 +1,10 @@
-// processRequest("../php/isStarIDTeacher.php", {}).then((result) => {
-    // if (result.error) {
-        // alert(result.error);
-    // }
-    // else {
-        // if teaher
-        // if (result) {
+processRequest("../php/isStarIDTeacher.php", {}).then((result) => {
+    if (result.error) {
+        alert(result.error);
+    }
+    else {
+        // if teacher
+        if (result.isTeacher) {
             // get all students progress report
             processRequest("../php/teacherProgress.php").then((result) => {
                 // if (result.error) {
@@ -31,11 +31,11 @@
                     }
                 // }
             });
-        // }
-        // if student
-        // else {
-            // get one students progress report
-
-        // }
-    // }
-// });
+        }
+        //if student
+        else {
+            //get one students progress report
+            
+        }
+    }
+});

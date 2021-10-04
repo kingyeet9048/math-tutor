@@ -27,7 +27,7 @@
 <script>
     processRequest("../php/isStarIDTeacher.php", {}).then((result) => {
         if (!result.error) {
-            if(!result) {
+            if(!result.isTeacher) {
                 document.getElementById("course").innerHTML = "Course Learning";
                 document.getElementById("course").href = "course_student.php";
             }
