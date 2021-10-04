@@ -24,16 +24,15 @@ else
     
     if($starID != null)
     {
-        echo $starID;
         // prepare and bind
-        $stmt = $conn->prepare("SELECT TCH.teacherStarID FROM mathtutor.teacherinfo AS TCH WHERE TCH.teacherStarID = ?;");
+        $stmt = $conn->prepare("SELECT TCH.teacherStarID AS 'starID' FROM mathtutor.teacherinfo AS TCH WHERE TCH.teacherStarID = ?;");
         $stmt->bind_param("s", $starID);
     
         //execute and receive query results
         $stmt->execute();
         $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        $returnState -> $row != null;
+        $row = $result->fetch_assoc()["starID"];
+        $returnState ->success = $row != null;
     
         $stmt->close();
         $conn->close();
