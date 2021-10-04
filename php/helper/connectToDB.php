@@ -36,7 +36,6 @@ if (!function_exists("connectToDB")) //catch to prevent error of declaring funct
                 throw new Exception();
             }
     
-            echo "successful connection";
             return $conn;
         }
         catch(Exception $e)

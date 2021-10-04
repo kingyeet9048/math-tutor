@@ -26,9 +26,14 @@
     ?>
     <script>
         processRequest("../php/isStarIDTeacher.php", {}).then((result) => {
-            if (!result.error) {
-                alert('Error. Not varified.');
-                window.location.href = "access_denied.php"
+            if (result.error) {
+                alert('something went wrong - ' + result.error + ' waiting for confirmation to redirect. We cannot allow you to use the page without validation. Try again later....');
+                window.location.href = "access_denied.php";
+            }
+            else {
+                if (!result.isTeacher) {   
+                    window.location.href = "access_denied.php";
+                }
             }
             else {
                 alert('something went wrong - ' + result.error + ' waiting for confirmation to redirect. We cannot allow you to use the page without validation. Try again later....');

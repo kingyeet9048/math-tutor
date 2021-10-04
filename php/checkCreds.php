@@ -13,8 +13,6 @@ $decodedData = json_decode($rawdata);
 //getting the raw sha256 output
 $username = $decodedData->username;
 $password = $decodedData->password;
-// $username = $_POST["username"];
-// $password = $_POST["password"];
 
 include("helper/connectToDB.php");
 $conn = connectToDB();
@@ -22,21 +20,37 @@ $conn = connectToDB();
 $_SESSION["USERNAME"] = $username; //store username and password in session variables
 $_SESSION["UPASSWORD"] = $password;
 
+$returnState = new stdClass();
+$returnState->success = false;
 // prepare and bind
-$stmt = $conn->prepare("SELECT STU.studentStarID AS 'studentStarID', TCH.teacherStarID AS 'starID' FROM mathtutor.teacherinfo AS TCH INNER JOIN mathtutor.studentinfo AS STU ON (TCH.username = ? AND TCH.password = ?) OR (STU.username = ? AND STU.password = ?)");
-$stmt->bind_param("ssss", $username, $password, $username, $password);
+$stmt = $conn->prepare("call mathtutor.signIn(?, ?)");
+$stmt->bind_param("ss", $username, $password);
 
 //execute and receive query results
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
-$returnState = new stdClass();
-$returnState->success = false;
 
-if(isset($row['starID']) && $row['starID'] != null) //login info found
+if($row["starID"] != null)
 {
     $_SESSION["USTARID"] = $row["starID"];
     $returnState->success = true;
+    $returnState->starID = $row["starID"];
+}
+else{
+    $stmt = $conn->prepare("SELECT STU.studentStarID AS 'starID', FROM mathtutor.studentinfo AS STU WHERE (STU.userName = ? AND STU.password = ?) LIMIT 1");
+    $stmt->bind_param("ss", $username, $password);
+    
+    //execute and receive query results
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    if($row["starID"] != null)
+    {
+        $_SESSION["USTARID"] = $row["starID"];
+        $returnState->success = true;
+        $returnState->starID = $row["starID"];
+    }    
 }
 
 $stmt->close();
