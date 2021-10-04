@@ -35,6 +35,7 @@ if($row["starID"] != null)
 {
     $_SESSION["USTARID"] = $row["starID"];
     $returnState->success = true;
+    $returnState->starID = $row["starID"];
 }
 else{
     $stmt = $conn->prepare("SELECT STU.studentStarID AS 'starID', FROM mathtutor.studentinfo AS STU WHERE (STU.userName = ? AND STU.password = ?) LIMIT 1");
@@ -48,6 +49,7 @@ else{
     {
         $_SESSION["USTARID"] = $row["starID"];
         $returnState->success = true;
+        $returnState->starID = $row["starID"];
     }    
 }
 
