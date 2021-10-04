@@ -38,23 +38,6 @@ if(isset($row["starID"]) && $row["starID"] != null)
 else{
     $returnState->success = false;
 }
-else{
-    $stmt2 = $conn->prepare("SELECT STU.studentStarID AS 'starID' FROM mathtutor.studentinfo AS STU WHERE (STU.userName = ? AND STU.password = ?) LIMIT 1");
-    echo $conn->error;
-    $stmt2->bind_param("ss", $username, $password);
-    
-    //execute and receive query results
-    $stmt2->execute();
-    $result2 = $stmt2->get_result();
-    $row = $result2->fetch_assoc();
-    if(isset($row["starID"]) && $row["starID"] != null)
-    {
-        $_SESSION["USTARID"] = $row["starID"];
-        $returnState->success = true;
-    }    
-
-    $stmt2->close();
-}
 
 $stmt->close();
 $conn->close();
