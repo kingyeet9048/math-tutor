@@ -23,8 +23,9 @@ $_SESSION["UPASSWORD"] = $password;
 $returnState = new stdClass();
 $returnState->success = false;
 // prepare and bind
-$stmt = $conn->prepare("SELECT TCH.teacherStarID AS 'starID' FROM mathtutor.teacherinfo AS TCH WHERE (TCH.userName = ? AND TCH.password = ?) LIMIT 1");
+$stmt = $conn->prepare("call mathtutor.signIn(?, ?)");
 $stmt->bind_param("ss", $username, $password);
+
 //execute and receive query results
 $stmt->execute();
 $result = $stmt->get_result();
@@ -34,6 +35,7 @@ if($row["starID"] != null)
 {
     $_SESSION["USTARID"] = $row["starID"];
     $returnState->success = true;
+    $returnState->starID = $row["starID"];
 }
 else{
     $stmt = $conn->prepare("SELECT STU.studentStarID AS 'starID', FROM mathtutor.studentinfo AS STU WHERE (STU.userName = ? AND STU.password = ?) LIMIT 1");
@@ -47,6 +49,7 @@ else{
     {
         $_SESSION["USTARID"] = $row["starID"];
         $returnState->success = true;
+        $returnState->starID = $row["starID"];
     }    
 }
 

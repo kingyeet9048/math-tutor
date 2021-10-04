@@ -24,7 +24,7 @@ else
     
     if($starID != null)
     {
-        echo $starID;
+        // echo $starID;
         // prepare and bind
         $stmt = $conn->prepare("SELECT TCH.teacherStarID FROM mathtutor.teacherinfo AS TCH WHERE TCH.teacherStarID = ?;");
         $stmt->bind_param("s", $starID);
@@ -33,7 +33,7 @@ else
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
-        $returnState -> $row != null;
+        $returnState -> isTeacher = !empty($row) ? true : false;
     
         $stmt->close();
         $conn->close();
