@@ -4,28 +4,29 @@ include("helper/connectToDB.php");
 $conn = connectToDB();
 $starID = $_SESSION["USTARID"];
 
-$rawdata = file_get_contents("php://input");
-$decodedData = json_decode($rawdata);
+
 $returnState = new stdClass();
 
-if(!isset($decodedData->starID))
+if(!isset($_SESSION) && !isset($decodedData->starID))
 {
     $returnState->error = "StarID was not found. Try passing 'starID' as a parameter when calling this script.";
 }
 else
 {
     //getting the raw sha256 output
-    $starID = $decodedData->starID;
+    $starID = $_SESSION["USTARID"];
     if(!isset($starID))
     {
-        $starID = $_SESSION["USTARID"];
+        $rawdata = file_get_contents("php://input");
+        $decodedData = json_decode($rawdata);
+        $starID = $decodedData->starID;
     }
     
     if($starID != null)
     {
         echo $starID;
         // prepare and bind
-        $stmt = $conn->prepare("SELECT TCH.teacherStarID FROM mathtutor.teacherinfo AS INF WHERE INF.teacherStarID = ?;");
+        $stmt = $conn->prepare("SELECT TCH.teacherStarID FROM mathtutor.teacherinfo AS TCH WHERE TCH.teacherStarID = ?;");
         $stmt->bind_param("s", $starID);
     
         //execute and receive query results

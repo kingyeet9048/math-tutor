@@ -13,11 +13,6 @@ $decodedData = json_decode($rawdata);
 //getting the raw sha256 output
 $username = $decodedData->username;
 $password = $decodedData->password;
-<<<<<<< Updated upstream
-$username = $_POST["username"];
-$password = $_POST["password"];
-=======
->>>>>>> Stashed changes
 
 include("helper/connectToDB.php");
 $conn = connectToDB();
@@ -35,11 +30,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 
-<<<<<<< Updated upstream
-if($row != null) //login info found
-=======
 if($row["starID"] != null)
->>>>>>> Stashed changes
 {
     $_SESSION["USTARID"] = $row["starID"];
     $returnState->success = true;
