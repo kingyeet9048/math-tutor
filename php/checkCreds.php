@@ -19,7 +19,8 @@ $conn = connectToDB();
 
 $_SESSION["USERNAME"] = $username; //store username and password in session variables
 $_SESSION["UPASSWORD"] = $password;
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 $returnState = new stdClass();
 $returnState->success = false;
 // prepare and bind
@@ -30,24 +31,27 @@ $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 
-if($row["starID"] != null)
+if(isset($row["starID"]) && $row["starID"] != null)
 {
     $_SESSION["USTARID"] = $row["starID"];
     $returnState->success = true;
 }
 else{
-    $stmt = $conn->prepare("SELECT STU.studentStarID AS 'starID', FROM mathtutor.studentinfo AS STU WHERE (STU.userName = ? AND STU.password = ?) LIMIT 1");
-    $stmt->bind_param("ss", $username, $password);
+    $stmt2 = $conn->prepare("SELECT STU.studentStarID AS 'starID' FROM mathtutor.studentinfo AS STU WHERE (STU.userName = ? AND STU.password = ?) LIMIT 1");
+    echo $conn->error;
+    $stmt2->bind_param("ss", $username, $password);
     
     //execute and receive query results
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
-    if($row["starID"] != null)
+    $stmt2->execute();
+    $result2 = $stmt2->get_result();
+    $row = $result2->fetch_assoc();
+    if(isset($row["starID"]) && $row["starID"] != null)
     {
         $_SESSION["USTARID"] = $row["starID"];
         $returnState->success = true;
     }    
+
+    $stmt2->close();
 }
 
 $stmt->close();
