@@ -23,7 +23,7 @@ $_SESSION["UPASSWORD"] = $password;
 $returnState = new stdClass();
 $returnState->success = false;
 // prepare and bind
-$stmt = $conn->prepare("SELECT TCH.teacherStarID AS 'starID' FROM mathtutor.teacherinfo AS TCH WHERE (TCH.userName = ? AND TCH.password = ?) LIMIT 1");
+$stmt = $conn->prepare("call mathtutor.signIn(?, ?)");
 $stmt->bind_param("ss", $username, $password);
 //execute and receive query results
 $stmt->execute();
