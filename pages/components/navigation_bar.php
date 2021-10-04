@@ -1,3 +1,9 @@
+<?php 
+    session_start();
+    if (!isset($_SESSION["USTARID"])) {
+        header("Location: ../index.php");
+    }
+?>
 <div id="navbar">
     <nav class="navbar navbar-expand-lg navbar-light bg-success">
         <div class="container-fluid">
@@ -17,7 +23,7 @@
                     <a id="course" class="nav-link" href=""></a>
                 </li>
                 <li class="nav-item">
-                    <a id="logout" class="nav-link" href="">Logout</a>
+                    <a id="logout" class="nav-link" href="../index.php">Logout</a>
                 </li>
             </ul>
             </div>
@@ -27,7 +33,7 @@
 <script>
     processRequest("../php/isStarIDTeacher.php", {}).then((result) => {
         if (!result.error) {
-            if(!result) {
+            if(!result.isTeacher) {
                 document.getElementById("course").innerHTML = "Course Learning";
                 document.getElementById("course").href = "course_student.php";
             }

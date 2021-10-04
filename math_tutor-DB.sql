@@ -42,7 +42,7 @@ CREATE TABLE `courses` (
 CREATE TABLE `questions` (
     `questionID` INT PRIMARY KEY AUTO_INCREMENT,
     `courseID` INT,
-    `studentStarID` VARCHAR(8),
+    `studentStarID` VARCHAR(8) NULL,
     `questionNumber` INT,
     `questionType` INT,
     `isOverride` BOOLEAN

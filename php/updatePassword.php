@@ -27,7 +27,7 @@ if(isset($_SESSION) && isset($_SESSION["DBLC"]) && isset($_SESSION["DBUN"]) && i
         $stmt = $conn->prepare("CALL mathtutor.forgotPasswordStudent(?,?);");
     }
 
-    $stmt->bind_param("s", $starID, $newPW);
+    $stmt->bind_param("ss", $starID, $newPW);
 
     //execute and receive query results
     $stmt->execute();

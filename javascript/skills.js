@@ -12,8 +12,8 @@ function customSkills () {
     }
     var skills = ['Recognizing numbers/Counting', 'Recognizing larger/smaller (more/less) – Using number line', 'Using number line to add, count and add up to 10, add more to make 10', 'Count and add up to 20, add 3 values up to 20', 'Vertical addition, find missing number to make 10/20', 'Horizontal addition, adding 3 values', 'Adding two-digit number (no carry), adding 2-digit number with carry'];
     processRequest("../php/getStudents.php", {"courseID" : courseID}).then((allStudents) => {
-        if (result.error) {
-            alert('Error - ' + result.error);
+        if (allStudents.error) {
+            alert('Error - ' + allStudents.error);
         }
         else {
             processRequest("../php/isTeachingCourse.php", {}).then((result) => {

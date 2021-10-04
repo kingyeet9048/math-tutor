@@ -25,7 +25,13 @@ async function processRequest(apiPath, postBody) {
             if (readyState == 4 && statusCode == 200) {
                 try {
                     const result = JSON.parse(theRequest.responseText);
-                    resolve(result);
+                    if(result.error) {
+                        resolve({'error': theRequest.responseText + ' api path - ' + apiPath});
+
+                    }
+                    else {
+                        resolve(result);
+                    }
                 }
                 catch (err) {
                     resolve({'error': theRequest.responseText + ' api path - ' + apiPath});

@@ -32,14 +32,7 @@ else
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
-        if(isset($row["starID"]) && $row["starID"] != null)
-        {
-            $returnState ->success = true;
-        }
-        else
-        {
-            $returnState->success = false;
-        }
+        $returnState -> isTeacher = !empty($row) ? true : false;
     
         $stmt->close();
         $conn->close();
