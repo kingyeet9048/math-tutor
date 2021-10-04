@@ -35,10 +35,6 @@
                     window.location.href = "access_denied.php";
                 }
             }
-            else {
-                alert('something went wrong - ' + result.error + ' waiting for confirmation to redirect. We cannot allow you to use the page without validation. Try again later....');
-                // window.location.href = "access_denied.php"
-            }
         });
     </script>
     <body>
