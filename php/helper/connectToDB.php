@@ -40,10 +40,10 @@ if (!function_exists("connectToDB")) //catch to prevent error of declaring funct
         }
         catch(Exception $e)
         {
-            echo "<div class='connectError'>Cannot connect to MySQL server to verify credentials. (Credentials: UN=".$un2.", PW=".$pw2.", LOC=".$loc2.") Please try again later. <a href='../dbAssist.php'>Did you remember to set the login credentials for the database?</a></div>";
+            echo "<div class='connectError'>Cannot connect to MySQL server to verify credentials. (Credentials: UN=".$un2.", PW=".$pw2.", LOC=".$loc2.") Please try again later. <a href='.../dbAssist.php'>Did you remember to set the login credentials for the database?</a></div>";
             exit;
         }
-    }    
+    } 
 }
 
 

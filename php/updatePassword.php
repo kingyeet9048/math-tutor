@@ -5,7 +5,7 @@
 session_start();
 $returnState = new stdClass();
 
-if(isset($_SESSION["DBCONNECTION"]))
+if(isset($_SESSION) && isset($_SESSION["DBLC"]) && isset($_SESSION["DBUN"]) && isset($_SESSION["DBPW"]))
 {
     $rawdata = file_get_contents("php://input");
     $decodedData = json_decode($rawdata);
@@ -34,6 +34,10 @@ if(isset($_SESSION["DBCONNECTION"]))
 
     $stmt->close();
     $conn->close();
+}
+else
+{
+    $returnState -> error = "Please validate the database connection variables before proceeding.";
 }
 
 $returnState -> success = isset($_SESSION["DBUN"]) && isset($_SESSION["DBPW"]) && isset($_SESSION["DBLC"]);
