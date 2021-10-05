@@ -1,0 +1,31 @@
+.contentBorder{
+    background-color: #0a8055;
+    height: 400px;
+    width: 30%;
+    padding-top: 25px;
+    padding-bottom: 100px;
+    padding-left: 50px;
+    margin-bottom: 0x;
+    margin-left: 670px;
+    margin-right: -1000px;
+    
+
+}
+
+
+.submitbtn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 5px 0px;
+    border: none;
+    cursor: pointer;
+    width: 40%;
+    height: 0%;
+    opacity: 0.9;
+    margin-left: 2%;
+    border-radius: 12px;
+  }
+
+  h1 {
+    font-weight: bold;
+  }

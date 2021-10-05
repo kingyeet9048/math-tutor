@@ -2,6 +2,10 @@
 <html>
 
 <?php include('components/head.php') ?>
+<<<<<<< Updated upstream
+=======
+<link rel="stylesheet" href="../styling/gamepage.css">
+>>>>>>> Stashed changes
 
 
 <body>
@@ -12,10 +16,17 @@
   <?php include("components/navigation_bar.php") ?>
 
     <div class="contentBorder">
+<<<<<<< Updated upstream
       <h1 id="questionNum"></h1>
       <p id="questionName"></p>
       <label for="Question">Choose your answer below.</label>
       <br><br>
+=======
+      <b><h1 id="questionNum"></h1></b>
+      <b> <p id="questionName"></p>
+      <label for="Question">Choose your answer below.</label>
+      <br>
+>>>>>>> Stashed changes
       <input type="radio" id="answerA" name="question" value="Answer A">
         <label name="questionLabel" for="Answer A">..</label>
       <br>
@@ -33,6 +44,10 @@
       </div>
       </form>
     </div>
+<<<<<<< Updated upstream
+=======
+    </b>
+>>>>>>> Stashed changes
     <script  type="text/javascript" src="../javascript/gamepage.js"></script>
     <?php include("components/footer.php") ?>
 
