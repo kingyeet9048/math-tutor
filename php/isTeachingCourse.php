@@ -37,23 +37,29 @@ else
         if($returnState->success)
         {
             $stmt->close();
+            $returnState->courseID = $row["courseID"];
+            $returnState->courseName = $row["courseName"];
+            $returnState->questions = array();
 
             // prepare and bind
-            $stmt = $conn->prepare("SELECT CRS.courseName AS 'courseName', CRS.courseID AS 'courseID' FROM mathtutor.courses AS CRS WHERE CRS.teacherStarID = ?;");
-            $stmt->bind_param("s", $starID);
+            $stmt = $conn->prepare("SELECT * FROM mathtutor.questions WHERE courseID = ?;");
+            $stmt->bind_param("s", $row["courseID"]);
         
             //execute and receive query results
             $stmt->execute();
             $result = $stmt->get_result();
 
-            while($row = mysqli_fetch_assoc($result)) {
-                if(!empty($row))
+            while($row2 = mysqli_fetch_assoc($result)) {
+                if(!empty($row2))
                 {
-                    $stu = new stdClass();
-                    $stu->firstName = $row["firstName"];
-                    $stu->lastName = $row["lastName"];
-                    $stu->numComplete = $row["COUNT(*)"];
-                    array_push($returnState->students,$stu);
+                    $question = new stdClass();
+                    $question->questionID = $row["questionID"];
+                    $question->studentStarID = $row["studentStarID"];
+                    $question->questionNumber = $row["questionNumber"];
+                    $question->questionType = $row["questionType"];
+                    $question->questionID = $row["questionID"];
+                    $question->isOverride = $row["isOverride"];
+                    array_push($returnState->questions,$question);
                 }
             }
         }
