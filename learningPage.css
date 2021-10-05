@@ -1,0 +1,17 @@
+.learningbtn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 12%;
+    opacity: 0.9;
+    margin-left: 800px;
+  }
+
+.image {
+
+    width: 100%;
+    height: auto;
+    margin-left: 600px;
+}

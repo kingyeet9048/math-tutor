@@ -1,0 +1,17 @@
+.contentBorder{
+    border: 1px solid black;
+    padding-left: 10px;
+
+}
+
+
+.submitbtn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 12%;
+    opacity: 0.9;
+    margin-left: 2%;
+  }
