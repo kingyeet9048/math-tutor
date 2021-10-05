@@ -9,28 +9,13 @@ $decodedData = json_decode($rawdata);
 
 $answer_formats = array(
     "X, X, ?", //count
-<<<<<<< Updated upstream
-    array("X    ?<br>--------", "?    X<br>--------"), //recognize numberline
-=======
     array("X--->?", "?<---X"), //recognize numberline
->>>>>>> Stashed changes
     "X + ? = A", //add to 10
     "X + X + ? = A", //add to 20
     "  X<br>+ ?<br>----<br>   A", //missing number to make ten/twenty
     "X + X + X = ?", //add three
     "  X<br>+ X<br>----<br>   ?"); //two digit (carry and no carry)
 
-<<<<<<< Updated upstream
-$answer_data = array(
-    9,
-    array(10,1),
-    10,
-    20,
-    20,
-    array(20,20));
-
-$questionType = $decodedData->questionType;
-=======
 $questionTypes = array(
     "Count",
     "Recognize",
@@ -50,23 +35,15 @@ $answer_data = array(
     20,
     10);
 
-$questionType = 2;///$decodedData->questionType;
->>>>>>> Stashed changes
+$questionType = isset($decodedData->questionType) ? $decodedData->questionType : "";
+if ($questionType == "")
+{
+    $questionType = 1;
+}
 
 $sel_format = $answer_formats[$questionType];
 $init_sel_data = $answer_data[$questionType];
 $sel_data = $answer_data[$questionType];
-<<<<<<< Updated upstream
-
-$formatted_q = "";
-
-if(gettype($sel_format) == "array")
-{
-    $sel_format = $sel_format[rand(0,1)];
-}
-
-$found_params = 0;
-=======
 $multi_meta_ind = 0;
 
 $formatted_q = "";
@@ -95,7 +72,6 @@ if($questionType == 4)
 }
 
 $paramCount = 0;
->>>>>>> Stashed changes
 $total_sum = 0;
 $equals_flag = false; //used to set is_answer_sum
 $is_answer_sum = false;
@@ -106,15 +82,6 @@ for($i = 0; $i < strlen($sel_format); ++$i)
 
     if($char == "X")
     {
-<<<<<<< Updated upstream
-        $found_params += 1;
-
-        $val = rand(1,$sel_data2);
-        if(gettype($sel_data) == "array")
-        {
-            $val = rand(1,$sel_data[$found_params - 1]);
-            $sel_data[$found_params - 1] -= $val; //create a maximum
-=======
         $paramCount += 1;
 
         $val = rand(1,$sel_data);
@@ -134,30 +101,23 @@ for($i = 0; $i < strlen($sel_format); ++$i)
         {
             $val = rand(1,$sel_data[$paramCount - 1]);
             $sel_data[$paramCount - 1] -= $val; //create a maximum
->>>>>>> Stashed changes
         }
         else
         {
             $sel_data -= $val; //create a maximum
         }
 
-<<<<<<< Updated upstream
-=======
         if($val < 0)
         {
             $val = -$val;
         }
         
 
->>>>>>> Stashed changes
         $total_sum += $val;
         $formatted_q = $formatted_q.$val;
     }
     elseif($char == "A")
     {
-<<<<<<< Updated upstream
-        $formatted_q = $formatted_q.$total_sum;
-=======
         if($questionType == 0)
         {
             $formatted_q = $formatted_q.($paramCount + $answer_data[0]);
@@ -182,7 +142,6 @@ for($i = 0; $i < strlen($sel_format); ++$i)
         {
             $formatted_q = $formatted_q.$total_sum;
         }
->>>>>>> Stashed changes
     }
     elseif($char == "?")
     {
@@ -193,16 +152,12 @@ for($i = 0; $i < strlen($sel_format); ++$i)
 
         $formatted_q = $formatted_q.$char;
     }
-<<<<<<< Updated upstream
-    else
-=======
     elseif($char == "=")
     {
         $equals_flag = true;
         $formatted_q = $formatted_q.$char;
     }
     elseif($char == " " || $char == "<" || $char=="b"||$char=="r"||$char==">"||$char=="+"||$char="-")
->>>>>>> Stashed changes
     {
         $formatted_q = $formatted_q.$char;
     }
@@ -211,8 +166,6 @@ for($i = 0; $i < strlen($sel_format); ++$i)
 $correct_option = rand(0,3);
 $options = array();
 
-<<<<<<< Updated upstream
-=======
 $prev_options = array();
 
 function genUnique($total_sum, $prev_options, $depth=99)
@@ -232,24 +185,10 @@ function genUnique($total_sum, $prev_options, $depth=99)
     return $choice;
 }
 
->>>>>>> Stashed changes
 for($i = 0; $i < 4; ++$i)
 {
     if($i == $correct_option)
     {
-<<<<<<< Updated upstream
-        array_push($options,$is_answer_sum ? $init_sel_data : $init_sel_data-$total_sum);
-    }
-    else
-    {
-        array_push($options,rand(1,$total_sum*2));
-    }
-}
-
-$returnState->answer = 0;
-$returnState->options = $options;
-$returnState->question = $formatted_q;
-=======
         if($questionType == 1)
         {
             array_push($options,$sel_data+($multi_meta_ind == 1 ? -1 : 1));
@@ -285,7 +224,6 @@ $returnState->options = $options;
 $returnState->question = $formatted_q;
 $returnState->success = true;
 $returnState->typeLabel = $questionTypes[$questionType];
->>>>>>> Stashed changes
 
 echo json_encode($returnState);
 

@@ -10,9 +10,9 @@ if(isset($_SESSION["DBCONNECTION"]))
     $rawdata = file_get_contents("php://input");
     $decodedData = json_decode($rawdata);
     //getting the raw sha256 output
-    $username = $decodedData->courseName;
+    $courseName = $decodedData->courseName;
 
-    include("connectToDB.php");
+    include("helper/connectToDB.php");
     $conn = connectToDB();
 
     $stmt = $conn->prepare("UPDATE mathtutor.courses SET courseName = ? WHERE teacherStarID = ?");

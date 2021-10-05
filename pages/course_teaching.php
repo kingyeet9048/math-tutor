@@ -25,9 +25,15 @@
         chdir($currentPath);
     ?>
     <script>
-        isTeacher().then((result) => {
-            if (!result) {
-                window.location.href = "access_denied.php"
+        processRequest("../php/isStarIDTeacher.php", {}).then((result) => {
+            if (result.error) {
+                alert('something went wrong - ' + result.error + ' waiting for confirmation to redirect. We cannot allow you to use the page without validation. Try again later....');
+                window.location.href = "access_denied.php";
+            }
+            else {
+                if (!result.isTeacher) {   
+                    window.location.href = "access_denied.php";
+                }
             }
         });
     </script>
@@ -41,8 +47,9 @@
                         <div class="card-body">
                             <h5 class="card-title">Welcome to the Course Teaching Section Educators</h5>
                             <p class="card-text">
-                                Below are options to modify or add a class to teach. We are still a startup, so each teacher may
-                                on each one course. 
+                                Below are options to modify or add a class to teach. Due to our current budget,
+                                we cannot allow teachers to be assigned to more than one course at time. We applogize for 
+                                the inconvienance this may bring. 
                             </p>
                         </div>
                     </div>
