@@ -26,8 +26,9 @@ if(isset($_SESSION["DBCONNECTION"]))
     $conn = connectToDB();
     
     // prepare and bind
-    $stmt = $conn->prepare("INSERT INTO mathtutor.questions(courseID, starID, questionNumber, questionType, isOverride) VALUES ((SELECT ID FROM mathtutor.courses WHERE courseName = ?), ?, ?, ?, ?)");
-    $stmt->bind_param("ssiii", $courseName, $studentStarID, $questionNumber, $questionType, intval($isOverride));
+    $stmt = $conn->prepare("INSERT INTO mathtutor.questions(courseID, studentStarID, questionNumber, questionType, isOverride) VALUES ((SELECT courseID FROM mathtutor.courses WHERE courseName = ?), ?, ?, ?, ?)");
+    $bool = intval($isOverride);
+    $stmt->bind_param("ssiii", $courseName, $studentStarID, $questionNumber, $questionType, $bool);
 
     //execute and receive query results
     $stmt->execute();
