@@ -32,13 +32,15 @@ else
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
-        $returnState -> isTeacher = !empty($row) ? true : false;
+        $returnState -> isTeacher = !empty($row);
+        $returnState->success = true;
     
         $stmt->close();
         $conn->close();
     }
     else
     {
+        $returnState->success = false;
         $returnState->error = "StarID was not found. Try passing 'starID' as a parameter when calling this script.";
     }
 }

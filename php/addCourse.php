@@ -4,6 +4,7 @@
 // to insert a course into the courses table
 
 session_start();
+$returnState = new stdClass();
 
 if(isset($_SESSION["DBCONNECTION"]))
 {
@@ -27,11 +28,13 @@ if(isset($_SESSION["DBCONNECTION"]))
     $stmt->close();
     $conn->close();
     //
-    echo "success|";
+    $returnState->success = true;
 }
 else
 {
-    echo "failure|";
+    $returnState->success = true;
 }
+
+echo json_encode($returnState);
 
 ?>

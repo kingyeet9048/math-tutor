@@ -8,6 +8,7 @@
 // to insert a question into the question table
 
 session_start();
+$returnState = new stdClass();
 
 if(isset($_SESSION["DBCONNECTION"]))
 {
@@ -35,11 +36,13 @@ if(isset($_SESSION["DBCONNECTION"]))
     $conn->close();
 
     //
-    echo "success|";
+    $returnState->success = true;
 }
 else
 {
-    echo "failure|";
+    $returnState->success = false;
 }
+
+echo json_encode($returnState);
 
 ?>
