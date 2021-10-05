@@ -8,6 +8,80 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <body>
+      <script>
+        function forgotManager() {
+          var username = document.getElementById('username');
+          var password = document.getElementById('password');
+          var newPassword = document.getElementById('new_password');
+          var confirmPassword = document.getElementById('confirm_password');
+          username.disabled = true;
+          password.disabled = true;
+          newPassword.disabled = true;
+          confirmPassword.disabled = true;
+          document.getElementById('forgot_button').disabled = true;
+          if (newPassword.value == confirmPassword.value) {
+            processRequest("../php/checkCreds.php", {"username": username.value, "password": password.value}).then((starID) => {
+              if (starID) {
+                if (starID.error) {
+                  alert("Error - " + starID.error);
+                }
+                else if (starID.success == true) {
+                  processRequest("../php/isStarIDTeacher.php", {"starID": starID.starID}).then((result) => {
+                    if (result) {
+                      if (result.error) {
+                        alert(result.error);
+                      }
+                      // is a teacher
+                      else if (result.isTeacher) {
+                        processRequest("../php/updatePassword.php", {"role": "teacher", "starID": starID.starID, "newPassword": newPassword.value}).then((final) => {
+                          if (final) {
+                            if (final.error) {
+                              alert(final.error);
+                            }
+                            else if (final.success) {
+                              window.location.href = "home.php";
+                            }
+                            else {
+                              alert("update failed. Please try again later");
+                            }
+                          }
+                        });
+                      }
+                      // is a student
+                      else if (!result.isTeacher) {
+                        processRequest("../php/updatePassword.php", {"role": "student", "starID": starID.starID, "newPassword": newPassword.value}).then((final) => {
+                          if (final) {
+                            if (final.error) {
+                              alert(final.error);
+                            }
+                            else if (final.success) {
+                              window.location.href = "home.php";
+                            }
+                            else {
+                              alert("update failed. Please try again later");
+                            }
+                          }
+                        });
+                      }
+                    }
+                  });
+                }
+                else {
+                  alert("username or password incorrct.");
+                }
+              }
+            });
+          }
+          else {
+            alert("new password does not match confirm password.");
+          }
+          username.disabled = false;
+          password.disabled = false;
+          newPassword.disabled = false;
+          confirmPassword.disabled = false;
+          document.getElementById('forgot_button').disabled = false;
+        }
+      </script>
       <div class="form-gap"></div>
         <div class="container mt-4">
           <div class="row">
@@ -41,7 +115,7 @@
                               </div>
                             </div>
                             <div class="form-group">
-                              <input name="recover-submit" class="btn btn-lg btn-success btn-block" value="Reset Password" type="submit">
+                              <input id="forgot_button" name="recover-submit" class="btn btn-lg btn-success btn-block" value="Reset Password" type="button" onclick="forgotManager();">
                             </div>
                             
                             <input type="hidden" class="hide" name="token" id="token" value=""> 

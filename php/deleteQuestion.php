@@ -15,7 +15,7 @@ if(isset($_SESSION) && isset($_SESSION["DBLC"]) && isset($_SESSION["DBUN"]) && i
     $conn = connectToDB();
 
     // prepare and bind
-    $stmt = $conn->prepare("DELETE FROM mathtutor.questions AS QST WHERE questionID = ?");
+    $stmt = $conn->prepare("DELETE FROM mathtutor.questions WHERE questionID = ?");
     $stmt->bind_param("i", $questionID);
 
     //execute and receive query results
