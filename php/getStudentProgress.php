@@ -1,4 +1,6 @@
 <?php 
+//Uses courseName (from the client) 
+// to delete a course's references from courses, questions, records and students tables
 
 session_start();
 $returnState = new stdClass();
@@ -23,28 +25,29 @@ if(isset($_SESSION["DBLC"]) && isset($_SESSION["DBUN"]) && isset($_SESSION["DBPW
         $decodedData = json_decode($rawdata);
         $starID = $decodedData->starID;
     }
+
     // prepare and bind
-    $stmt = $conn->prepare("CALL mathtutor.getEnrolled(?);");
+    $stmt = $conn->prepare("CALL mathtutor.getStudentProgress(?);");
     $stmt->bind_param("s", $starID);
+
     //execute and receive query results
     $stmt->execute();
     $result = $stmt->get_result();
-    $returnState->students = array();
+    $row = $result->fetch_assoc();
+    
+    $returnState->success = !empty($row);
 
-    while($row = mysqli_fetch_assoc($result)) {
-        if(!empty($row))
-        {
-            $stu = new stdClass();
-            $stu->firstName = $row["firstName"];
-            $stu->lastName = $row["lastName"];
-            $stu->numComplete = $row["COUNT(*)"];
-            array_push($returnState->students,$stu);
-        }
+    if($returnState->success)
+    {
+        $returnState->progress = $row["@percentComplete"];
+    }
+    else
+    {
+        $returnState->progress = 0;
     }
 
     $stmt->close();
     $conn->close();
-    $returnState->success = true;
 }
 else
 {

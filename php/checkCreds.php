@@ -25,32 +25,18 @@ $returnState->success = false;
 // prepare and bind
 $stmt = $conn->prepare("call mathtutor.signIn(?, ?)");
 $stmt->bind_param("ss", $username, $password);
-
 //execute and receive query results
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 
-if($row["starID"] != null)
+if(isset($row["starID"]) && $row["starID"] != null)
 {
     $_SESSION["USTARID"] = $row["starID"];
     $returnState->success = true;
-    $returnState->starID = $row["starID"];
 }
 else{
-    $stmt = $conn->prepare("SELECT STU.studentStarID AS 'starID', FROM mathtutor.studentinfo AS STU WHERE (STU.userName = ? AND STU.password = ?) LIMIT 1");
-    $stmt->bind_param("ss", $username, $password);
-    
-    //execute and receive query results
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
-    if($row["starID"] != null)
-    {
-        $_SESSION["USTARID"] = $row["starID"];
-        $returnState->success = true;
-        $returnState->starID = $row["starID"];
-    }    
+    $returnState->success = false;
 }
 
 $stmt->close();

@@ -24,22 +24,23 @@ else
     
     if($starID != null)
     {
-        // echo $starID;
         // prepare and bind
-        $stmt = $conn->prepare("SELECT TCH.teacherStarID FROM mathtutor.teacherinfo AS TCH WHERE TCH.teacherStarID = ?;");
+        $stmt = $conn->prepare("SELECT TCH.teacherStarID AS 'starID' FROM mathtutor.teacherinfo AS TCH WHERE TCH.teacherStarID = ?;");
         $stmt->bind_param("s", $starID);
     
         //execute and receive query results
         $stmt->execute();
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
-        $returnState -> isTeacher = !empty($row) ? true : false;
+        $returnState -> isTeacher = !empty($row);
+        $returnState->success = true;
     
         $stmt->close();
         $conn->close();
     }
     else
     {
+        $returnState->success = false;
         $returnState->error = "StarID was not found. Try passing 'starID' as a parameter when calling this script.";
     }
 }
