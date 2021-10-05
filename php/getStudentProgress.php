@@ -9,8 +9,7 @@ if(isset($_SESSION["DBLC"]) && isset($_SESSION["DBUN"]) && isset($_SESSION["DBPW
 {
     $rawdata = file_get_contents("php://input");
     $decodedData = json_decode($rawdata);
-    //getting the raw sha256 output
-    $courseName = $decodedData->courseName;
+
     include("helper/connectToDB.php");
     $conn = connectToDB();
     

@@ -5,15 +5,10 @@ $returnState = new stdClass();
 
 if(isset($_SESSION["DBLC"]) && isset($_SESSION["DBUN"]) && isset($_SESSION["DBPW"]))
 {
-    $rawdata = file_get_contents("php://input");
-    $decodedData = json_decode($rawdata);
-    //getting the raw sha256 output
-    $courseName = $decodedData->courseName;
     include("helper/connectToDB.php");
     $conn = connectToDB();
     
-    if(isset($_SESSION))
-    {
+    if(isset($_SESSION)) {
         $starID = $_SESSION["USTARID"];
     }
 
@@ -35,6 +30,7 @@ if(isset($_SESSION["DBLC"]) && isset($_SESSION["DBUN"]) && isset($_SESSION["DBPW
         if(!empty($row))
         {
             $stu = new stdClass();
+            $stu->starID = $row["studentStarID"];
             $stu->firstName = $row["firstName"];
             $stu->lastName = $row["lastName"];
             $stu->numComplete = $row["COUNT(*)"];
