@@ -11,7 +11,7 @@ function customSkills () {
 
     }
     var skills = ['Recognizing numbers/Counting', 'Recognizing larger/smaller (more/less) – Using number line', 'Using number line to add, count and add up to 10, add more to make 10', 'Count and add up to 20, add 3 values up to 20', 'Vertical addition, find missing number to make 10/20', 'Horizontal addition, adding 3 values', 'Adding two-digit number (no carry), adding 2-digit number with carry'];
-    processRequest("../php/getStudents.php", {"courseID" : courseID}).then((allStudents) => {
+    processRequest("../php/getStudents.php", {"courseName" : courseID}).then((allStudents) => {
         if (allStudents.error) {
             alert('Error - ' + allStudents.error);
         }
@@ -41,8 +41,8 @@ function customSkills () {
                         var input = document.createElement('input');
                         input.type = "number";
                         input.className = "form-control mb-2";
-                        input.value = 0;
-                        input.min = 0;
+                        input.value = 1;
+                        input.min = 1;
                         input.max = 99;
             
                         var selectInput = document.createElement('select');
@@ -62,38 +62,41 @@ function customSkills () {
                             var isOverride = true;
                             var starID = starIDInput.options[starIDInput.selectedIndex].value;
                             addQuestionButton.disabled = true;
+                            processRequest("../php/addQuestion.php", {"courseName": courseName, "questionNumber": questionNumber, "questionType": questionType, "isOverride": isOverride, "studentStarID": starID}).then((result) => {
+                                if (result.error) {
+                                    alert("Error - " + result.error);
+                                    addQuestionButton.disabled = false;
+                                }
+                                else if (result.success) {
+                                    alert("Success");
+                                }
+                                else {
+                                    alert("failed - Try again");
+                                    addQuestionButton.disabled = false;
+                                }
+                            });
                         }
                         var addQuestionButton = document.createElement('button');
                         addQuestionButton.type = 'button';
                         addQuestionButton.className = "btn btn-primary";
                         addQuestionButton.innerHTML = "Send";
                         addQuestionButton.onclick = sendRequest;
-            
-            
-                        var closeButton = document.createElement('span');
-                        closeButton.className = "badge clickable closeButton";
-                        closeButton.style = "color: red;";
-                        var icon = document.createElement('i');
-                        icon.className = "fa fa-times";
-                        closeButton.appendChild(icon);
-                        function closeAndChange() {
-                            $(this).closest('.list-group-item').remove();
-                        }
-                        closeButton.onclick = closeAndChange;
-            
+        
                         parentContainer.appendChild(newDiv);
                         newDiv.appendChild(newDiv2);
                         newDiv.appendChild(starIDInput);
                         newDiv2.append(input);
                         newDiv2.appendChild(selectInput);
                         newDiv2.appendChild(addQuestionButton);
-                        newDiv2.appendChild(closeButton);
                     }
                     document.getElementById('customPlusButton').onclick = addAQuestion;
                     if (result.questions) {
                         for(var i = 0; i < result.questions.length; i++) {
-                            if (!result.questions[i].isOverride)
+                            if (result.questions[i].isOverride == 0) {
                                 continue;
+                            }
+                            else {
+                                console.log(result.questions);
                                 var parentContainer = document.getElementById('addCustomQuestions');
                                 var newDiv = document.createElement('div');
                                 newDiv.className = "list-group-item customHolder";
@@ -103,10 +106,10 @@ function customSkills () {
                                 
                                 var starIDInput = document.createElement('select');
                                 starIDInput.className = "form-control mb-2";
-                                for(var i = 0; i < allStudents.students.length; i++) {
+                                for(var j = 0; j < allStudents.students.length; j++) {
                                     var option = document.createElement('option');
-                                    option.value = allStudents.students[i].starID;
-                                    option.text = allStudents.students[i].firstName + " " + allStudents.students[i].lastName + " - " + option.value;
+                                    option.value = allStudents.students[j].starID;
+                                    option.text = allStudents.students[j].firstName + " " + allStudents.students[j].lastName + " - " + option.value;
                                     starIDInput.appendChild(option);
                                 }
                                 starIDInput.disabled = true;
@@ -114,32 +117,22 @@ function customSkills () {
                                 var input = document.createElement('input');
                                 input.type = "number";
                                 input.className = "form-control mb-2";
-                                input.value = 0;
-                                input.min = 0;
+                                input.value = result.questions[i].questionNumber;
+                                input.min = 1;
                                 input.max = 99;
                                 input.disabled = true;
+                                input.id = result.questions[i].questionID;
                     
                                 var selectInput = document.createElement('select');
                                 selectInput.className = "form-control mb-2";
-                                for(var i = 0; i < skills.length; i++) {
+                                for(var k = 0; k < skills.length; k++) {
                                     var option = document.createElement('option');
                                     option.value = i + 1;
-                                    option.text = skills[i];
+                                    option.text = skills[k];
                                     selectInput.appendChild(option);
                                 }
                                 selectInput.disabled = true;
-                    
-                    
-                                function sendRequest() {
-                                    var courseName = document.getElementById('courseInput').value;
-                                    var questionType = selectInput.options[selectInput.selectedIndex].value;
-                                    var questionNumber = input.value;
-                                    var isOverride = true;
-                                    var starID = starIDInput.options[starIDInput.selectedIndex].value;
-                                    addQuestionButton.disabled = true;
-                                }
-                    
-                    
+        
                                 var closeButton = document.createElement('span');
                                 closeButton.className = "badge clickable closeButton";
                                 closeButton.style = "color: red;";
@@ -147,7 +140,19 @@ function customSkills () {
                                 icon.className = "fa fa-times";
                                 closeButton.appendChild(icon);
                                 function closeAndChange() {
-                                    $(this).closest('.list-group-item').remove();
+                                    let questionID = parseInt($(this).closest('.list-group-item').children(0).children(0).attr('id'));
+                                    processRequest("../php/deleteQuestion.php", {"questionID": questionID}).then((result) => {
+                                        if (result.error) {
+                                            alert("Error - " + result.error);
+                                        }
+                                        else if (result.success) {
+                                            alert("Success");
+                                            $(this).closest('.list-group-item').remove();
+                                        }
+                                        else {
+                                            alert("failed - Try again");
+                                        }
+                                    });
                                 }
                                 closeButton.onclick = closeAndChange;
                     
@@ -157,6 +162,8 @@ function customSkills () {
                                 newDiv2.append(input);
                                 newDiv2.appendChild(selectInput);
                                 newDiv2.appendChild(closeButton);
+                            }
+                            
                         }
                     }
                 }
@@ -285,7 +292,19 @@ function classSkills () {
                 icon.className = "fa fa-times";
                 closeButton.appendChild(icon);
                 function closeAndChange() {
-                    $(this).closest('.list-group-item').remove();
+                    let questionID = parseInt($(this).closest('.list-group-item').children(0).children(0).attr('id'));
+                    processRequest("../php/deleteQuestion.php", {"questionID": questionID}).then((result) => {
+                        if (result.error) {
+                            alert("Error - " + result.error);
+                        }
+                        else if (result.success) {
+                            alert("Success");
+                            $(this).closest('.list-group-item').remove();
+                        }
+                        else {
+                            alert("failed - Try again");
+                        }
+                    });
                 }
                 closeButton.onclick = closeAndChange;
     
@@ -313,7 +332,7 @@ function classSkills () {
                     input.type = "text";
                     input.className = "form-control mb-2";
                     input.value = result.questions[i].questionNumber;
-                    input.id = result.questions[i].ID;
+                    input.id = result.questions[i].questionID;
                     input.disabled = true;
     
                     var selectInput = document.createElement('select');
@@ -334,7 +353,19 @@ function classSkills () {
                     icon.className = "fa fa-times";
                     closeButton.appendChild(icon);
                     function closeAndChange() {
-                        $(this).closest('.list-group-item').remove();
+                        let questionID = parseInt($(this).closest('.list-group-item').children(0).children(0).attr('id'));
+                        processRequest("../php/deleteQuestion.php", {"questionID": questionID}).then((result) => {
+                            if (result.error) {
+                                alert("Error - " + result.error);
+                            }
+                            else if (result.success) {
+                                alert("Success");
+                                $(this).closest('.list-group-item').remove();
+                            }
+                            else {
+                                alert("failed - Try again");
+                            }
+                        });
                     }
                     closeButton.onclick = closeAndChange;
     

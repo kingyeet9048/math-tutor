@@ -36,7 +36,7 @@ processRequest("../php/isTeachingCourse.php", {}).then((result) => {
         deleteButton.className = "btn btn-danger";
         deleteButton.innerHTML = "Delete Course";
         function deleteCourseT() {
-            processRequest("../php/deleteCourse.php", {}).then((result) => {
+            processRequest("../php/deleteCourse.php", {"courseName": courseInput.value}).then((result) => {
                 if (result.error) {
                     alert('Error - ' + result.error);
                 }

@@ -19,7 +19,7 @@ if(isset($_SESSION["DBCONNECTION"]))
     $conn = connectToDB();
 
     // prepare and bind
-    $stmt = $conn->prepare("INSERT INTO mathtutor.courses(courseName, starID) VALUES (?, ?)");
+    $stmt = $conn->prepare("INSERT INTO mathtutor.courses(courseName, teacherStarID) VALUES (?, ?)");
     $stmt->bind_param("ss", $courseName, $starID);
 
     //execute and receive query results

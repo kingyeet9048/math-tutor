@@ -23,7 +23,7 @@
                     <a id="course" class="nav-link" href=""></a>
                 </li>
                 <li class="nav-item">
-                    <a id="logout" class="nav-link" href="../index.php">Logout</a>
+                    <a id="logout" class="nav-link" href="../php/logout.php">Logout</a>
                 </li>
             </ul>
             </div>
