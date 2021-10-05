@@ -2,8 +2,13 @@
 session_start();
 include("helper/connectToDB.php");
 $conn = connectToDB();
+<<<<<<< Updated upstream
 $rawdata = file_get_contents("php://input");
 $decodedData = json_decode($rawdata);
+=======
+        $rawdata = file_get_contents("php://input");
+        $decodedData = json_decode($rawdata);
+>>>>>>> Stashed changes
 $returnState = new stdClass();
 
 if(!isset($_SESSION) && !isset($decodedData->starID))
@@ -36,7 +41,11 @@ else
         {
             $stmt->close();
             $returnState->courseID = $row["courseID"];
+<<<<<<< Updated upstream
             $returnState->courseName = $row["courseName"];
+=======
+            $returnState->studentStarID = $starID;
+>>>>>>> Stashed changes
             $returnState->questions = array();
 
             // prepare and bind
@@ -51,12 +60,21 @@ else
                 if(!empty($row2))
                 {
                     $question = new stdClass();
+<<<<<<< Updated upstream
                     $question->questionID = $row["questionID"];
                     $question->studentStarID = $row["studentStarID"];
                     $question->questionNumber = $row["questionNumber"];
                     $question->questionType = $row["questionType"];
                     $question->questionID = $row["questionID"];
                     $question->isOverride = $row["isOverride"];
+=======
+                    $question->questionID = $row2["questionID"];
+                    $question->studentStarID = $row2["studentStarID"];
+                    $question->questionNumber = $row2["questionNumber"];
+                    $question->questionType = $row2["questionType"];
+                    $question->questionID = $row2["questionID"];
+                    $question->isOverride = $row2["isOverride"];
+>>>>>>> Stashed changes
                     array_push($returnState->questions,$question);
                 }
             }
@@ -65,7 +83,11 @@ else
         {
             $stmt->close();
         }
+<<<<<<< Updated upstream
     
+=======
+        $returnState->success=true;
+>>>>>>> Stashed changes
         $conn->close();
     }
     else
