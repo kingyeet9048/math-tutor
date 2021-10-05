@@ -4,14 +4,18 @@
 // to insert a course into the courses table
 
 session_start();
+$returnState = new stdClass();
 
 if(isset($_SESSION["DBCONNECTION"]))
 {
 
     $starID = $_SESSION["USTARID"]; //Once frontend is done this can be uncommented
-    $courseName = $_POST["courseName"];
+    $rawdata = file_get_contents("php://input");
+    $decodedData = json_decode($rawdata);
+    //getting the raw sha256 output
+    $courseName = $decodedData->courseName;
 
-    include("connectToDB.php");
+    include("helper/connectToDB.php");
     $conn = connectToDB();
 
     // prepare and bind
@@ -24,11 +28,13 @@ if(isset($_SESSION["DBCONNECTION"]))
     $stmt->close();
     $conn->close();
     //
-    echo "success|";
+    $returnState->success = true;
 }
 else
 {
-    echo "failure|";
+    $returnState->success = true;
 }
+
+echo json_encode($returnState);
 
 ?>

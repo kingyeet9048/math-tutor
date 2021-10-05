@@ -8,36 +8,40 @@
 // include("setSessionTimeout.php");
 // setSessionTimeout(60*60*24); Seems to cause the cookies to wipe
 session_start();
+$rawdata = file_get_contents("php://input");
+$decodedData = json_decode($rawdata);
+//getting the raw sha256 output
+$username = $decodedData->username;
+$password = $decodedData->password;
 
-$username = $_POST["username"];
-$password = $_POST["password"];
-
-include("connectToDB.php");
+include("helper/connectToDB.php");
 $conn = connectToDB();
 
 $_SESSION["USERNAME"] = $username; //store username and password in session variables
 $_SESSION["UPASSWORD"] = $password;
 
+$returnState = new stdClass();
+$returnState->success = false;
 // prepare and bind
-$stmt = $conn->prepare("SELECT LGN.password AS 'password', LGN.password AS 'password', LGN.starID AS 'starID' FROM mathtutor.login AS LGN WHERE LGN.username = ? AND LGN.password = ?");
+$stmt = $conn->prepare("call mathtutor.signIn(?, ?)");
 $stmt->bind_param("ss", $username, $password);
-
 //execute and receive query results
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 
-if($row != null) //login info found
+if(isset($row["starID"]) && $row["starID"] != null)
 {
     $_SESSION["USTARID"] = $row["starID"];
-    echo "success|true";
+    $returnState->success = true;
 }
-else //Login info found
-{
-    echo "failure|false";
+else{
+    $returnState->success = false;
 }
 
 $stmt->close();
 $conn->close();
+
+echo json_encode($returnState);
 
 ?>

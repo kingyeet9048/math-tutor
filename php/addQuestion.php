@@ -8,17 +8,21 @@
 // to insert a question into the question table
 
 session_start();
+$returnState = new stdClass();
 
 if(isset($_SESSION["DBCONNECTION"]))
 {
-    $starID = $_SESSION["USTARID"]; //$_POST["starID"]; Once frontend is done this can be uncommented
-    $courseName = $_POST["courseName"];
-    $questionNumber = $_POST["questionNumber"];
-    $questionType = $_POST["questionType"];
-    $isOverride = empty($_POST["isOverride"]) ? 0 : $_POST["isOverride"] == 'true'; //optional
-    $studentStarID = empty($_POST["studentStarID"]) ? null : $_POST["studentStarID"]; //optional
+    $starID = $_SESSION["USTARID"];
+    $rawdata = file_get_contents("php://input");
+    $decodedData = json_decode($rawdata);
+    //getting the raw sha256 output
+    $courseName = $decodedData->courseName;
+    $questionNumber = $decodedData->questionNumber;
+    $questionType = $decodedData->questionType;
+    $isOverride = $decodedData->isOverride;
+    $studentStarID = $decodedData->studentStarID;
 
-    include("connectToDB.php");
+    include("helper/connectToDB.php");
     $conn = connectToDB();
     
     // prepare and bind
@@ -32,11 +36,13 @@ if(isset($_SESSION["DBCONNECTION"]))
     $conn->close();
 
     //
-    echo "success|";
+    $returnState->success = true;
 }
 else
 {
-    echo "failure|";
+    $returnState->success = false;
 }
+
+echo json_encode($returnState);
 
 ?>
