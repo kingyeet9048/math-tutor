@@ -196,6 +196,19 @@ BEGIN
 END$$
 DELIMITER ;
 
+DELIMITER $$
+USE `mathtutor`$$
+CREATE DEFINER=`softAdmin`@`10.8.%.%` PROCEDURE `getClassStudents`(
+IN cName VARCHAR(255)
+)
+BEGIN
+	set @cID = (SELECT courseID FROM mathtutor.courses WHERE courseName = cName);
+    SELECT studentStarID, firstName, lastName FROM mathtutor.studentInfo WHERE courseID = @cID;
+    
+END$$
+
+DELIMITER ;
+
 INSERT INTO `mathtutor`.`teacherinfo` (`teacherStarID`, `lastName`, `firstName`, `userName`, `password`) VALUES ('12345678', 'Steve', 'Roger', 'sroger', 'avengers');
 INSERT INTO `mathtutor`.`teacherinfo` (`teacherStarID`, `lastName`, `firstName`, `userName`, `password`) VALUES ('87654321', 'Thor', 'Odinson', 'todinson', 'avengers');
 INSERT INTO `mathtutor`.`courses` (`teacherStarID`, `courseName`) VALUES ('12345678', 'Super Hero 101');
