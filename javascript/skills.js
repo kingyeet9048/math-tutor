@@ -257,6 +257,19 @@ function classSkills () {
                     var isOverride = false;
                     var starID = null;
                     addQuestionButton.disabled = true;
+                    processRequest("../php/addQuestion.php", {"courseName": courseName, "questionNumber": questionNumber, "questionType": questionType, "isOverride": isOverride, "studentStarID": starID}).then((result) => {
+                        if (result.error) {
+                            alert("Error - " + result.error);
+                            addQuestionButton.disabled = false;
+                        }
+                        else if (result.success) {
+                            alert("Success");
+                        }
+                        else {
+                            alert("failed - Try again");
+                            addQuestionButton.disabled = false;
+                        }
+                    });
                 }
                 var addQuestionButton = document.createElement('button');
                 addQuestionButton.type = 'button';

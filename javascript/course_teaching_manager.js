@@ -29,15 +29,6 @@ processRequest("../php/isTeachingCourse.php", {}).then((result) => {
         parentContainer.appendChild(courseLevelLabel);
         parentContainer.appendChild(courseLevelInput);
 
-        // // Custom Lesson
-        // var customLessionLabel = document.createElement('label');
-        // customLessionLabel.innerHTML = "Custom Lesson";
-        // customLessionLabel.className = "mb-2";
-        // var customLessionInput = document.createElement('textarea');
-        // customLessionInput.id="CustomLesson";
-        // customLessionInput.className = "form-control mb-2";
-        // parentContainer.appendChild(customLessionLabel);
-        // parentContainer.appendChild(customLessionInput);
         var form = document.getElementById('form');
         var deleteButton = document.createElement('button');
         deleteButton.id = 'deleteButton';
@@ -57,7 +48,7 @@ processRequest("../php/isTeachingCourse.php", {}).then((result) => {
                     setTimeout(() => {
                         $('.alert').alert('close');
                     }, 1000);
-                    if (result) {
+                    if (result.success) {
                         alert.innerHTML = "Successfully deleted your course.";
                         document.getElementById('submitButton').innerHTML = "Add";
                         submitButton.onclick = add;
@@ -86,7 +77,7 @@ processRequest("../php/isTeachingCourse.php", {}).then((result) => {
                     setTimeout(() => {
                         $('.alert').alert('close');
                     }, 1000);
-                    if (result) {
+                    if (result.success) {
                         alert.innerHTML = "Successfully modified your course information.";
                     }
                     else {
@@ -97,7 +88,7 @@ processRequest("../php/isTeachingCourse.php", {}).then((result) => {
             });
         }
         function add() {
-            processRequest("../php/addCourse.php", {'courseName': courseInput.value, 'courseLevel': courseLevelInput.options[courseLevelInput.selectedIndex].value}).then((result) => {
+            processRequest("../php/addCourse.php", {'courseName': courseInput.value}).then((result) => {
                 if (result.error) {
                     alert('Error - ' + result.error);
                 }
@@ -109,7 +100,7 @@ processRequest("../php/isTeachingCourse.php", {}).then((result) => {
                     setTimeout(() => {
                         $('.alert').alert('close');
                     }, 1000);
-                    if (result) {
+                    if (result.success) {
                         alert.innerHTML = "Successfully added your course information.";
                         document.getElementById('submitButton').innerHTML = "Modify";
                         submitButton.onclick = send;
@@ -126,12 +117,14 @@ processRequest("../php/isTeachingCourse.php", {}).then((result) => {
             });
         }
         var submitButton = document.getElementById('submitButton');
-        if (result) {
+        if (result.success) {
             deleteButton.onclick = deleteCourseT;
             form.appendChild(deleteButton);
 
             document.getElementById('submitButton').innerHTML = "Modify";
-            courseInput.value = result.courseID;
+            console.log(JSON.stringify(result));
+            localStorage.setItem("courseInfo", JSON.stringify(result));
+            courseInput.value = result.courseName;
             submitButton.onclick = send;
         }
         else {
@@ -139,8 +132,6 @@ processRequest("../php/isTeachingCourse.php", {}).then((result) => {
             document.getElementById('classQuestions').disabled = true;
             document.getElementById('submitButton').innerHTML = "Add";
             submitButton.onclick = add;
-            localStorage.setItem('questionLength', 1);
-
         }
     }
 });

@@ -2,12 +2,11 @@
 session_start();
 include("helper/connectToDB.php");
 $conn = connectToDB();
-$starID = $_SESSION["USTARID"];
 
 
 $returnState = new stdClass();
 
-if(!isset($_SESSION) && !isset($decodedData->starID))
+if(!isset($_SESSION))
 {
     $returnState->error = "StarID was not found. Try passing 'starID' as a parameter when calling this script.";
 }
@@ -53,12 +52,12 @@ else
                 if(!empty($row2))
                 {
                     $question = new stdClass();
-                    $question->questionID = $row["questionID"];
-                    $question->studentStarID = $row["studentStarID"];
-                    $question->questionNumber = $row["questionNumber"];
-                    $question->questionType = $row["questionType"];
-                    $question->questionID = $row["questionID"];
-                    $question->isOverride = $row["isOverride"];
+                    $question->questionID = $row2["questionID"];
+                    $question->studentStarID = $row2["studentStarID"];
+                    $question->questionNumber = $row2["questionNumber"];
+                    $question->questionType = $row2["questionType"];
+                    $question->questionID = $row2["questionID"];
+                    $question->isOverride = $row2["isOverride"];
                     array_push($returnState->questions,$question);
                 }
             }
