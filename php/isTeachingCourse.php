@@ -1,28 +1,76 @@
-<?php
-    $myObject = new stdClass();
-    $myObject->courseID = "1232fgrews";
-    $myObject->courseLevel = "k-1st";
-    $myObject->lessonsTeaching = "1, 2, 3, 4";
-    $myObject->customLession = "Count to 50!";
-    $question1 = new stdClass();
-    $question1->ID = "asdfasd234";
-    $question1->courseID = "1232fgrews";
-    $question1->questionNumber = 1;
-    $question1->questionType = 4;
-    $question2 = new stdClass();
-    $question2->ID = "awqr564";
-    $question2->courseID = "1232fgrews";
-    $question2->questionNumber = 2;
-    $question2->questionType = 7;
-    $question3 = new stdClass();
-    $question3->ID = "425gfegh";
-    $question3->courseID = "something";
-    $question3->questionNumber = 2;
-    $question3->questionType = 3;
-    $question3->isOverride = true;
-    $question3->starID = "a star ID";
-    $array = array((array)$question1, (array)$question2, (array)$question3);
-    $myObject->questions = $array;
-    echo json_encode($myObject);
+<?php 
+session_start();
+include("helper/connectToDB.php");
+$conn = connectToDB();
+$starID = $_SESSION["USTARID"];
+
+
+$returnState = new stdClass();
+
+if(!isset($_SESSION) && !isset($decodedData->starID))
+{
+    $returnState->error = "StarID was not found. Try passing 'starID' as a parameter when calling this script.";
+}
+else
+{
+    //getting the raw sha256 output
+    $starID = $_SESSION["USTARID"];
+    if(!isset($starID))
+    {
+        $rawdata = file_get_contents("php://input");
+        $decodedData = json_decode($rawdata);
+        $starID = $decodedData->starID;
+    }
+    
+    if($starID != null)
+    {
+        // prepare and bind
+        $stmt = $conn->prepare("SELECT CRS.courseName AS 'courseName', CRS.courseID AS 'courseID' FROM mathtutor.courses AS CRS WHERE CRS.teacherStarID = ?;");
+        $stmt->bind_param("s", $starID);
+    
+        //execute and receive query results
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $returnState->success = !empty($row);
+
+        if($returnState->success)
+        {
+            $stmt->close();
+
+            // prepare and bind
+            $stmt = $conn->prepare("SELECT CRS.courseName AS 'courseName', CRS.courseID AS 'courseID' FROM mathtutor.courses AS CRS WHERE CRS.teacherStarID = ?;");
+            $stmt->bind_param("s", $starID);
+        
+            //execute and receive query results
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            while($row = mysqli_fetch_assoc($result)) {
+                if(!empty($row))
+                {
+                    $stu = new stdClass();
+                    $stu->firstName = $row["firstName"];
+                    $stu->lastName = $row["lastName"];
+                    $stu->numComplete = $row["COUNT(*)"];
+                    array_push($returnState->students,$stu);
+                }
+            }
+        }
+        else
+        {
+            $stmt->close();
+        }
+    
+        $conn->close();
+    }
+    else
+    {
+        $returnState->success = false;
+        $returnState->error = "StarID was not found. Try passing 'starID' as a parameter when calling this script.";
+    }
+}
+
+echo json_encode($returnState);
 
 ?>
