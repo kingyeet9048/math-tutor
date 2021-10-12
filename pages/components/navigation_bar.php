@@ -35,7 +35,7 @@
         if (!result.error) {
             if(!result.isTeacher) {
                 document.getElementById("course").innerHTML = "Course Learning";
-                document.getElementById("course").href = "course_student.php";
+                document.getElementById("course").href = "gamepage.php";
             }
             else {
                 document.getElementById("course").innerHTML = "Course Teaching";
