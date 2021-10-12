@@ -11,7 +11,7 @@
  */
 if (!function_exists("connectToDB")) //catch to prevent error of declaring function more than once
 {
-    function connectToDB($location='localhost:3306',$un='root',$pw='password')
+    function connectToDB($location='cswebbox.winona.edu:3306',$un='softAdmin',$pw='rfare3#27^enar')
     {
         mysqli_report(MYSQLI_REPORT_STRICT);
         $loc2 = $location;
